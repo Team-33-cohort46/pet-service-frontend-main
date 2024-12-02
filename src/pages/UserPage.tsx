@@ -2,6 +2,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../App';
+import UserServices from '../pages/UserServiceCategory'
 
 const UserProfilePage: React.FC = () => {
   const [user, setUser] = useState<any>(null);
@@ -10,8 +11,6 @@ const UserProfilePage: React.FC = () => {
   const [isEditing, setIsEditing] = useState(false);
   const navigate = useNavigate();
   const { setIsLoggedIn, setIsLoggedOut } = useContext(AuthContext);
-
-
 
   const [newPet, setNewPet] = useState({ name: "", type: "", photo: "" });
 
@@ -69,35 +68,7 @@ const UserProfilePage: React.FC = () => {
     fetchUserData();
     fetchPets();
   }, []);
-
-  const handleDeletePet = async (petId: string) => {
-    const token = localStorage.getItem("authToken");
-    if (!token) return;
-
-    try {
-      const response = await fetch(`/api/pets/${petId}`, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to delete pet");
-      }
-
-      // Удаляем питомца из локального состояния
-      setUser((prev: any) => ({
-        ...prev,
-        pets: prev.pets.filter((pet: any) => pet.id !== petId),
-      }));
-    } catch (err) {
-      console.error("Error deleting pet:", err);
-    }
-  };
-
-
-
+  
   const fetchUserData = async () => {
     const token = localStorage.getItem('authToken');
     if (!token) {
@@ -335,22 +306,13 @@ const UserProfilePage: React.FC = () => {
       </div>
 
 
-
-
-
-
-
-
-
-
-
-
-    </div>
-
-
-
+      <UserServices/>
+        
+      </div>
+   
   );
 };
 
 export default UserProfilePage;
+
 
