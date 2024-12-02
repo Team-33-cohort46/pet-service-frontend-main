@@ -12,6 +12,10 @@ import Contacts from './pages/Contacts';
 import Home from './pages/Home';
 import FooterPage from './pages/Footer';
 import myImage from './asets/logo.jpg';
+import AdminApp from './pages/admin/AdminApp';
+import ServicesByCategory from './pages/ServicesByCategory';
+import BookingDetails from './pages/BookingDetails';
+import BookingDetailsPage from './pages/BookingDetailsPage';
 
 // Создаем контекст для авторизации
 export const AuthContext = createContext({
@@ -80,12 +84,16 @@ const App: React.FC = () => {
               <Route path="/user" element={<UserPage />} />
               <Route path="/pets" element={<PetPage />} />
               <Route path="/services" element={<ServicePage />} />
-              <Route path="/services/:categoryName" element={<ServiceListPage />} />
-              <Route path="/booking/:serviceId" element={<BookingPage />} />
+              {/*<Route path="/services/:categoryName" element={<ServiceListPage />} />*/}
+              <Route path="/services/:categoryId" element={<ServicesByCategory />} />
+              {/*<Route path="/booking/:serviceId" element={<BookingPage />} />*/}
+              <Route path="/booking/:serviceId" element={<BookingDetails />} />
+              <Route path="/bookings/:id" element={<BookingDetailsPage />} />
               <Route path="/categories" element={<ServiceCategoryPage />} />
               <Route path="/contacts" element={<Contacts />} />
               <Route path="/register" element={<RegistrationPage />} />
               <Route path="/login" element={<LoginPage />} />
+              <Route path="/admin/*" element={<AdminApp />} /> 
             </Routes>
           </div>
 

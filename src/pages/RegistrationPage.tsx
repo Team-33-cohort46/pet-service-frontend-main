@@ -8,12 +8,14 @@ const RegistrationPage: React.FC = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
+    const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
     const handleChange = (setter: React.Dispatch<React.SetStateAction<string>>) =>
         (e: React.ChangeEvent<HTMLInputElement>) => setter(e.target.value);
 
     const signUp = async (e: React.FormEvent) => {
         e.preventDefault();
+        setErrorMessage(null); // Очистка предыдущего сообщения об ошибке
         const item = { firstName, lastName, email, password };
 
         try {
@@ -24,12 +26,14 @@ const RegistrationPage: React.FC = () => {
             });
 
             const result = await response.json();
+
             if (response.ok) {
                 localStorage.setItem('firstName', result.firstName);
                 navigate('/login');
 
             } else {
                 console.error("Registration failed:", result.message || "Unknown error");
+                setErrorMessage(result.message || "Registration failed.");
             }
         } catch (error) {
             console.error("Error during registration:", error);
@@ -40,6 +44,7 @@ const RegistrationPage: React.FC = () => {
         <div className="min-h-screen bg-gray-100 flex items-start justify-center pt-12 px-4">
             <form onSubmit={signUp} className="max-w-lg w-4/5 scale-90">
                 <h2 className="text-2xl font-semibold mb-6 text-center">Register</h2>
+                {errorMessage && <p className="text-red-500 text-sm mb-4">{errorMessage}</p>}
                 <div className="mb-4">
                     <label htmlFor="firstName" className="block text-gray-700 mb-2">First Name:</label>
                     <input

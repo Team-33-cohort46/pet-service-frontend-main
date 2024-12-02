@@ -4,6 +4,7 @@
 import React from 'react';
 import ServiceCategoryPage from './ServiceCategoryPage'; // 
 import backgroundImage from '../asets/images/main.jpg'; // 
+import CategoriesPage from './CategoriesPage';
 
 const Home: React.FC = () => {
   return (
@@ -29,8 +30,9 @@ const Home: React.FC = () => {
         </div>
       </div>
 
-      {/* Display service categories */}
-      <ServiceCategoryPage />
+      {/* Display service categories 
+      <ServiceCategoryPage /> ПОДМЕНИЛА КОМПОНЕНТ!!!*/}
+      <CategoriesPage />
 
       {/* "How It Works" section */}
       <div className="bg-white py-8">
