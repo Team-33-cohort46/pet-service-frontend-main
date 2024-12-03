@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -7,6 +6,7 @@ const RegistrationPage: React.FC = () => {
     const [lastName, setLastName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [error, setError] = useState<string | null>(null);
     const navigate = useNavigate();
 
     const handleChange = (setter: React.Dispatch<React.SetStateAction<string>>) =>
@@ -14,6 +14,13 @@ const RegistrationPage: React.FC = () => {
 
     const signUp = async (e: React.FormEvent) => {
         e.preventDefault();
+
+        const passwordPattern = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
+        if (!passwordPattern.test(password)) {
+            setError("Password must be at least 8 characters long, include one uppercase letter, one number, and one special character.");
+            return;
+        }
+
         const item = { firstName, lastName, email, password };
 
         try {
@@ -27,12 +34,13 @@ const RegistrationPage: React.FC = () => {
             if (response.ok) {
                 localStorage.setItem('firstName', result.firstName);
                 navigate('/login');
-
             } else {
                 console.error("Registration failed:", result.message || "Unknown error");
+                setError(result.message || "Registration failed. Please try again.");
             }
         } catch (error) {
             console.error("Error during registration:", error);
+            setError("An error occurred during registration. You may have entered an existing email.");
         }
     };
 
@@ -40,6 +48,11 @@ const RegistrationPage: React.FC = () => {
         <div className="min-h-screen bg-gray-100 flex items-start justify-center pt-12 px-4">
             <form onSubmit={signUp} className="max-w-lg w-4/5 scale-90">
                 <h2 className="text-2xl font-semibold mb-6 text-center">Register</h2>
+                {error && (
+                    <div className="mb-4 text-red-500 text-sm">
+                        {error}
+                    </div>
+                )}
                 <div className="mb-4">
                     <label htmlFor="firstName" className="block text-gray-700 mb-2">First Name:</label>
                     <input
@@ -112,4 +125,5 @@ const RegistrationPage: React.FC = () => {
 };
 
 export default RegistrationPage;
+
 

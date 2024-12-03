@@ -14,6 +14,7 @@ import FooterPage from './pages/Footer';
 import myImage from './asets/logo.jpg';
 import ReviewPage from "./pages/ReviewPage";
 import UserReviewsPage from "./pages/UserReviewsPage";
+import RestoreAccountPage from "./pages/RestoreAccountPage";
 
 // Создаем контекст для авторизации
 export const AuthContext = createContext({
@@ -99,6 +100,7 @@ const App: React.FC = () => {
                             <Route path="/login" element={<LoginPage/>}/>
                             <Route path="/review" element={<ReviewPage/>}/>
                             <Route path="/user-reviews" element={<UserReviewsPage/>}/>
+                            <Route path="/restore-account" element={<RestoreAccountPage />} />
                         </Routes>
                     </div>
 

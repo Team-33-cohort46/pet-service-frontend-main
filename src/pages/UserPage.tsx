@@ -78,6 +78,39 @@ const UserProfilePage: React.FC = () => {
     }
   };
 
+  const handleDelete = async () => {
+    const token = localStorage.getItem('authToken');
+    if (!token) return;
+
+    const confirmDelete = window.confirm(
+        "Are you sure you want to delete your account?"
+    );
+
+    if (!confirmDelete) return;
+
+    try {
+      const response = await fetch(`/api/auth/me/${user.email}`, {
+        method: 'DELETE',
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`Failed to delete user: ${response.status}`);
+      }
+
+      // On successful deletion
+      localStorage.removeItem('authToken');
+      setIsLoggedOut(true);
+      navigate('/goodbye'); // Redirect to a farewell or main page
+    } catch (err) {
+      console.error("Error deleting user:", err);
+      setError("Failed to delete user account.");
+    }
+  };
+
   useEffect(() => {
     fetchUserData();
   }, []);
@@ -181,10 +214,18 @@ const UserProfilePage: React.FC = () => {
           >
             Log Out
           </button>
+
+          <button
+              onClick={handleDelete}
+              className="mt-6 w-full bg-red-800 hover:bg-red-900 text-white font-bold py-2 px-4 rounded"
+          >
+            Delete Account
+          </button>
         </div>
       </div>
   );
 };
 
 export default UserProfilePage;
+
 
