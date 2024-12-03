@@ -36,12 +36,11 @@ const BookingDetailsPage: React.FC = () => {
       }
 
       const data = await response.json();
-      console.log(data);
       setBooking(data);
     } catch (error) {
       console.error(error);
       alert('Error fetching booking details.');
-      navigate('/'); // Перенаправить на главную в случае ошибки
+      navigate('/'); // Redirect to the homepage on error
     } finally {
       setLoading(false);
     }
@@ -69,7 +68,7 @@ const BookingDetailsPage: React.FC = () => {
       }
 
       const updatedBooking = await response.json();
-      setBooking(updatedBooking); // Обновить статус бронирования
+      setBooking(updatedBooking); // Update booking status
       alert('Booking successfully cancelled.');
     } catch (error) {
       console.error(error);
@@ -78,32 +77,72 @@ const BookingDetailsPage: React.FC = () => {
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div className="text-center text-gray-600 mt-6">Loading...</div>;
   }
 
   if (!booking) {
-    return <div>Booking not found.</div>;
+    return <div className="text-center text-red-500 mt-6">Booking not found.</div>;
   }
 
   return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">Booking Details</h1>
-      <div className="border p-4 rounded-lg shadow-md">
-        <p><strong>Booking ID:</strong> {booking.bookingId}</p>
-        <p><strong>Status:</strong> {booking.status}</p>
-        <p><strong>Service ID:</strong> {booking.serviceId}</p>
-        <p><strong>Pet ID:</strong> {booking.petId}</p>
-        <p><strong>Start Date:</strong> {booking.startDate}</p>
-        <p><strong>End Date:</strong> {booking.endDate}</p>
-      </div>
-      <p className="mt-4">
-        You can view more details and manage your bookings in your{' '}
-        <a href="/user" className="text-blue-500">personal account</a>.
-      </p>
+    <div className="max-w-3xl mx-auto p-6 bg-gray-50 shadow-md rounded-lg">
+      <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">
+        Booking Details
+      </h1>
+
+      <section className="mb-6">
+        <h2 className="text-2xl font-semibold text-gray-700 mb-4">Overview</h2>
+        <div className="border rounded-lg p-4 bg-white shadow-sm space-y-2">
+          <p className="text-gray-700">
+            <span className="font-medium">Booking ID:</span> {booking.bookingId}
+          </p>
+          <p className="text-gray-700 flex items-center">
+            <span className="font-medium">Status:</span>
+            <span
+              className={`ml-2 px-3 py-1 text-sm font-semibold rounded ${
+                booking.status === 'cancelled'
+                  ? 'bg-red-500 text-white'
+                  : 'bg-green-500 text-white'
+              }`}
+            >
+              {booking.status}
+            </span>
+          </p>
+        </div>
+      </section>
+
+      <section className="mb-6">
+        <h2 className="text-2xl font-semibold text-gray-700 mb-4">Details</h2>
+        <div className="border rounded-lg p-4 bg-white shadow-sm space-y-2">
+          <p className="text-gray-700">
+            <span className="font-medium">Service ID:</span> {booking.serviceId}
+          </p>
+          <p className="text-gray-700">
+            <span className="font-medium">Pet ID:</span> {booking.petId}
+          </p>
+          <p className="text-gray-700">
+            <span className="font-medium">Start Date:</span> {new Date(booking.startDate).toLocaleDateString()}
+          </p>
+          <p className="text-gray-700">
+            <span className="font-medium">End Date:</span> {new Date(booking.endDate).toLocaleDateString()}
+          </p>
+        </div>
+      </section>
+
+      <section className="mb-6">
+        <h2 className="text-2xl font-semibold text-gray-700 mb-4">Additional Information</h2>
+        <p className="text-gray-600 text-sm">
+          Manage this booking and view more details in your{' '}
+          <a href="/profile" className="text-blue-500 hover:underline">
+            personal account
+          </a>.
+        </p>
+      </section>
+
       {booking.status !== 'cancelled' && (
         <button
           onClick={handleCancelBooking}
-          className="bg-red-500 text-white px-4 py-2 rounded mt-4"
+          className="w-full bg-red-600 text-white font-medium py-3 rounded-lg shadow-md hover:bg-red-700 transition"
         >
           Cancel Booking
         </button>

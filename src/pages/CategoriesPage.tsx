@@ -9,6 +9,7 @@ interface Category {
 const CategoriesPage: React.FC = () => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [message, setMessage] = useState<string | null>(null);  // Для отображения сообщений
 
   useEffect(() => {
     fetchCategories();
@@ -22,29 +23,39 @@ const CategoriesPage: React.FC = () => {
       setCategories(data);
     } catch (error) {
       console.error(error);
-      alert('Error fetching categories.');
+      setMessage('Error fetching categories.');
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">Service Categories</h1>
+    <div className="max-w-3xl mx-auto p-8 mt-8 bg-gray-50 shadow-md rounded-lg">
+      <h1 className="text-4xl font-bold text-gray-800 mb-6 text-center">
+      Now tell us a bit about your pets...
+      </h1>
+      <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">
+      Verified and reviewed sitters are waiting to apply!
+      </h2>
+      {message && (
+        <p className="mt-4 text-center text-red-500">
+          {message}
+        </p>
+      )}
       {loading ? (
-        <div>Loading...</div>
+        <div className="text-gray-600 text-center">Loading...</div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 gap-4">
           {categories.map((category) => (
-            <div key={category.id} className="border p-4 rounded-lg shadow-md">
-              <h3 className="text-lg font-semibold">{category.title}</h3>
-              <Link
-                to={`/services/${category.id}`}
-                className="text-blue-500 mt-2 inline-block"
-              >
-                View services
-              </Link>
-            </div>
+            <Link
+              to={`/services/${category.id}`}
+              key={category.id}
+              className="w-full bg-white border p-4 rounded-lg shadow-md hover:bg-gray-100 transition transform hover:scale-105 flex items-center justify-center min-h-[100px]"
+            >
+              <h3 className="text-2xl font-semibold text-gray-700 text-center">
+                {category.title}
+              </h3>
+            </Link>
           ))}
         </div>
       )}
