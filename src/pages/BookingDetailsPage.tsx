@@ -98,7 +98,7 @@ const BookingDetailsPage: React.FC = () => {
       </div>
       <p className="mt-4">
         You can view more details and manage your bookings in your{' '}
-        <a href="/profile" className="text-blue-500">personal account</a>.
+        <a href="/user" className="text-blue-500">personal account</a>.
       </p>
       {booking.status !== 'cancelled' && (
         <button

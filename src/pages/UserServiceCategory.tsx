@@ -44,13 +44,13 @@ const UserProfilePage: React.FC = () => {
   }, []);
 
   return (
-    <div className="user-profile">
-      <h1 className="text-2xl font-bold">My Services</h1>
+    <div className="user-profile w-full p-8">
+      <h1 className="text-2xl font-bold text-center mb-2">My Services</h1>
       {error && <p className="text-red-500">{error}</p>}
       {services.length > 0 ? (
         <ul>
           {services.map((service) => (
-            <li key={service.id} className="border rounded p-4 mb-2">
+            <li key={service.id} className=" p-4 mb-2">
               <h3 className="font-semibold">{service.title}</h3>
               <p><strong>Price:</strong> ${service.price}</p>
               <p><strong>Description:</strong> {service.description}</p>

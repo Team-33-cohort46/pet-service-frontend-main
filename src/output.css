@@ -203,6 +203,14 @@ abbr:where([title]) {
 /*
 Remove the default font size and weight for headings.
 */
+details > summary {
+  list-style: none;
+  cursor: pointer;
+}
+details[open] > summary span {
+  color:#fff; 
+ background-color:#eee;
+}
 
 h1,
 h2,
@@ -213,6 +221,7 @@ h6 {
   font-size: inherit;
   font-weight: inherit;
 }
+
 
 /*
 Reset links to optimize for opt-in styling instead of opt-out.
