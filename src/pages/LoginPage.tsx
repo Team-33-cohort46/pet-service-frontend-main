@@ -30,7 +30,7 @@ const LoginPage: React.FC = () => {
                 localStorage.setItem('authToken', result.token);
                 setIsLoggedIn(true);
                 setIsLoggedOut(false);
-                navigate("/profile");
+                navigate("/user");
 
             } else {
                 setError(result.message || "Login failed. Please try again.");

@@ -16,6 +16,7 @@ import AdminApp from './pages/admin/AdminApp';
 import ServicesByCategory from './pages/ServicesByCategory';
 import BookingDetails from './pages/BookingDetails';
 import BookingDetailsPage from './pages/BookingDetailsPage';
+import CategoriesPage from './pages/CategoriesPage';
 
 // Создаем контекст для авторизации
 export const AuthContext = createContext({
@@ -89,7 +90,7 @@ const App: React.FC = () => {
               {/*<Route path="/booking/:serviceId" element={<BookingPage />} />*/}
               <Route path="/booking/:serviceId" element={<BookingDetails />} />
               <Route path="/bookings/:id" element={<BookingDetailsPage />} />
-              <Route path="/categories" element={<ServiceCategoryPage />} />
+              <Route path="/categories" element={<CategoriesPage />} />
               <Route path="/contacts" element={<Contacts />} />
               <Route path="/register" element={<RegistrationPage />} />
               <Route path="/login" element={<LoginPage />} />
