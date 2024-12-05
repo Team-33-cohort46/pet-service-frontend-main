@@ -19,9 +19,9 @@ const UserProfilePage: React.FC = () => {
   const DEFAULT_PHOTO = profilePhoto;
 
   const renderStars = (rating: number) => {
-    const filledStars = Math.floor(rating); // Полные звёздочки
-    const halfStar = rating % 1 >= 0.5; // Половинка звёздочки
-    const emptyStars = 5 - filledStars - (halfStar ? 1 : 0); // Пустые звёздочки
+    const filledStars = Math.floor(rating); 
+    const halfStar = rating % 1 >= 0.5; 
+    const emptyStars = 5 - filledStars - (halfStar ? 1 : 0); 
   
     return (
       <div className='flex'>

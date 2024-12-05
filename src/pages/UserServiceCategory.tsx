@@ -197,7 +197,7 @@ const UserProfilePage: React.FC = () => {
               <li key={service.id} className="p-4 mb-4 ">
                 <h3 className="font-semibold text-sky-500">{service.title}</h3>
                 <p>
-                  <strong>Price:</strong> ${service.price}
+                  <strong>Price:</strong> {service.price} €
                 </p>
                 <p>
                   <strong>Description:</strong> {service.description}

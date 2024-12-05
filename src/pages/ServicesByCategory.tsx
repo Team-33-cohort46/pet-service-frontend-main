@@ -1,8 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import profilePhoto from '../asets/images/user.png'
+const DEFAULT_PHOTO = profilePhoto;
 
 interface Service {
+  user: any;
+  photo:any;
   id: number;
+  firstName: string;
   title: string;
   description: string;
   price: number;
@@ -43,8 +48,10 @@ const ServicesByCategory: React.FC = () => {
           {services.map((service) => (
             <div key={service.id} className="border p-4 rounded-lg shadow-md">
               <h3 className="text-lg font-semibold">{service.title}</h3>
+              <p>{service.user.firstName}</p>
+              <p className="w-10 h-10"><img src={service.user.photo || DEFAULT_PHOTO} alt="" className="w-10 h-10 object-cover rounded-full" /></p>
               <p>{service.description}</p>
-              <p className="font-bold">{service.price}</p>
+              <p className="font-bold"> {service.price} €</p>
               <Link
                 to={`/booking/${service.id}`}
                 state={{ service }}
