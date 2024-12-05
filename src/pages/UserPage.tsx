@@ -3,6 +3,10 @@ import React, { useEffect, useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../App';
 import UserService from '../pages/UserServiceCategory'
+import profilePhoto from '../asets/images/user.png'
+import star from '../asets/images/star.png'
+import emptyStar from '../asets/images/empty-star.png'
+import halfstar from '../asets/images/half-star.png'
 
 const UserProfilePage: React.FC = () => {
   const [user, setUser] = useState<any>(null);
@@ -12,7 +16,43 @@ const UserProfilePage: React.FC = () => {
   const navigate = useNavigate();
   const { setIsLoggedIn, setIsLoggedOut } = useContext(AuthContext);
 
+  const DEFAULT_PHOTO = profilePhoto;
 
+  const renderStars = (rating: number) => {
+    const filledStars = Math.floor(rating); // Полные звёздочки
+    const halfStar = rating % 1 >= 0.5; // Половинка звёздочки
+    const emptyStars = 5 - filledStars - (halfStar ? 1 : 0); // Пустые звёздочки
+  
+    return (
+      <div className='flex'>
+        {Array.from({ length: filledStars }).map((_, index) => (
+          <img
+            key={`filled-${index}`}
+            src={`${star}`}
+            alt="Filled Star"
+            style={{ width: "20px", height: "20px", margin: "0 2px" }}
+          />
+        ))}
+        {halfStar && (
+          <img
+            src={`${halfstar}`}
+            alt="Half Star"
+            style={{ width: "20px", height: "20px", margin: "0 2px" }}
+          />
+        )}
+        {Array.from({ length: emptyStars }).map((_, index) => (
+          <img
+            key={`empty-${index}`}
+            src={`${emptyStar}`}
+            alt="Empty Star"
+            style={{ width: "20px", height: "20px", margin: "0 2px" }}
+          />
+        ))}
+      </div>
+    );
+  };
+  
+  
 
   const fetchUserData = async () => {
     const token = localStorage.getItem('authToken');
@@ -35,6 +75,12 @@ const UserProfilePage: React.FC = () => {
       }
 
       const userData = await response.json();
+
+      // Устанавливаем стандартное фото, если его нет
+      if (!userData.photo) {
+        userData.photo = DEFAULT_PHOTO;
+      }
+
       setUser(userData);
       setEditableUser(userData);
     } catch (err) {
@@ -99,7 +145,7 @@ const UserProfilePage: React.FC = () => {
 
     const formData = new FormData();
     formData.append('file', photoFile);
-    formData.append('folder', 'images'); // Вы можете указать любую папку
+    formData.append('folder', '/asets/images'); // Вы можете указать любую папку
 
     try {
       const response = await fetch('/api/files/upload', {
@@ -292,14 +338,13 @@ const UserProfilePage: React.FC = () => {
           ) : (
             <>
               <div className="mb-4">
-                <img src={user.photo} alt="User photo" className="w-32 h-32 object-cover rounded-full" />
+                <img src={user.photo || DEFAULT_PHOTO} alt="" className="w-32 h-32 object-cover rounded-full" />
               </div>
-              <p><strong>Photo:</strong> {user.photo}</p>
                 <p><strong>Name:</strong> {user.firstName}</p>
                 <p><strong>Last name:</strong> {user.lastName}</p>
                 <p><strong>Email:</strong> {user.email}</p>
                 <p><strong>Description:</strong> {user.description}</p>
-                <p><strong>Rating:</strong> {user.averageStars.toFixed(1)}</p>
+                <p className="flex space-x-2"><strong>Rating:</strong> {renderStars(user.averageStars)}</p>
               <div className="flex space-x-2">
                 <button
                   onClick={() => setIsEditing(true)}
@@ -351,7 +396,7 @@ const UserProfilePage: React.FC = () => {
                 <li key={pet.id} className=" p-2 mb-2">
                   <p><strong>Name:</strong> {pet.name}</p>
                   <p><strong>Type:</strong> {pet.type}</p>
-                  <p><strong>Photo:</strong> {pet.photo}</p>
+                  {/* <p><strong>Photo:</strong> {pet.photo}</p> */}
                   {/* <button
                   onClick={() => handleDeletePet(pet.id)}
                   className="mt-2 bg-red-600 hover:bg-red-700 text-white font-bold py-1 px-4 rounded"

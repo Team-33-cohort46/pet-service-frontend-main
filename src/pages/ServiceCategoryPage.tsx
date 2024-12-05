@@ -14,7 +14,7 @@ interface Service {
   };
 }
 
-const defaultAvatar = '../assets/images/profile-logo.png';
+const defaultAvatar = '../asets/images/profile-logo.png';
 
 const ServicesByCategory: React.FC = () => {
   const { categoryId } = useParams<{ categoryId: string }>();

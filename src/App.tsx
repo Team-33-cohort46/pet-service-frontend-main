@@ -101,6 +101,7 @@ const App: React.FC = () => {
                   {/* Right navigation */}
                   <div className="flex items-center space-x-4">
                     {isLoggedIn ? (
+                      <>
                       <Link to="/user" className="hover:text-theme-blue">
                         <img
                           src="https://cdn-icons-png.flaticon.com/512/8188/8188360.png"
@@ -108,6 +109,10 @@ const App: React.FC = () => {
                           className="h-6 w-6"
                         />
                       </Link>
+                                    <Link to="/review" className="bg-theme-blue text-white px-4 py-2 rounded-md hover:bg-theme-blue-light" >
+                                        Leave review
+                                    </Link>
+                                    </>
                     ) : (
                       <>
                         <Link to="/register" className="text-gray-700 hover:text-theme-blue">
