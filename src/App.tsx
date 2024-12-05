@@ -109,7 +109,7 @@ const App: React.FC = () => {
                           className="h-6 w-6"
                         />
                       </Link>
-                                    <Link to="/review" className="bg-theme-blue text-white px-4 py-2 rounded-md hover:bg-theme-blue-light" >
+                                    <Link to="/review" className="bg-sky-400 hover:bg-sky-500 text-white px-4 py-2 rounded-md hover:bg-theme-blue-light" >
                                         Leave review
                                     </Link>
                                     </>
