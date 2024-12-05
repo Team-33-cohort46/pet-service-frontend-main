@@ -12,6 +12,8 @@ const UserProfilePage: React.FC = () => {
   const navigate = useNavigate();
   const { setIsLoggedIn, setIsLoggedOut } = useContext(AuthContext);
 
+
+
   const fetchUserData = async () => {
     const token = localStorage.getItem('authToken');
     if (!token) {
@@ -173,6 +175,40 @@ const UserProfilePage: React.FC = () => {
   };
 
 
+  const handleDelete = async () => {
+    const token = localStorage.getItem('authToken');
+    if (!token) return;
+
+    const confirmDelete = window.confirm(
+        "Are you sure you want to delete your account?"
+    );
+
+    if (!confirmDelete) return;
+
+    try {
+      const response = await fetch(`/api/auth/me/${user.email}`, {
+        method: 'DELETE',
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`Failed to delete user: ${response.status}`);
+      }
+
+      // On successful deletion
+      localStorage.removeItem('authToken');
+      setIsLoggedOut(true);
+      navigate('/goodbye'); // Redirect to a farewell or main page
+    } catch (err) {
+      console.error("Error deleting user:", err);
+      setError("Failed to delete user account.");
+    }
+  };
+
+
   useEffect(() => {
     fetchUserData();
     fetchPets();
@@ -204,7 +240,7 @@ const UserProfilePage: React.FC = () => {
                 <button
                   type="button"
                   onClick={handlePhotoUpload}
-                  className="mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                  className="mt-2 bg-blue-500 hover:bg-blue-700 text-white  py-2 px-4 rounded"
                 >
                   Upload Photo
                 </button>
@@ -241,13 +277,13 @@ const UserProfilePage: React.FC = () => {
               <div className="flex space-x-2">
                 <button
                   onClick={handleSave}
-                  className="mt-2 w-1/2  bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                  className="mt-2 w-1/2  bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded"
                 >
                   Save
                 </button>
                 <button
                   onClick={() => setIsEditing(false)}
-                  className="mt-2 w-1/2  bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
+                  className="mt-2 w-1/2  bg-gray-600 hover:bg-gray-700 text-white  py-2 px-4 rounded"
                 >
                   Cancel
                 </button>
@@ -258,24 +294,42 @@ const UserProfilePage: React.FC = () => {
               <div className="mb-4">
                 <img src={user.photo} alt="User photo" className="w-32 h-32 object-cover rounded-full" />
               </div>
-              <p><strong>Name:</strong> {user.firstName}</p>
-              <p><strong>Last name:</strong> {user.lastName}</p>
-              <p><strong>Email:</strong> {user.email}</p>
-              <p><strong>Description:</strong> {user.description}</p>
+              <p><strong>Photo:</strong> {user.photo}</p>
+                <p><strong>Name:</strong> {user.firstName}</p>
+                <p><strong>Last name:</strong> {user.lastName}</p>
+                <p><strong>Email:</strong> {user.email}</p>
+                <p><strong>Description:</strong> {user.description}</p>
+                <p><strong>Rating:</strong> {user.averageStars.toFixed(1)}</p>
               <div className="flex space-x-2">
                 <button
                   onClick={() => setIsEditing(true)}
-                  className="mt-6 w-1/2 bg-sky-400 hover:bg-sky-500 text-white font-bold py-2 px-4 rounded"
+                  className="mt-6 w-1/2 bg-sky-400 hover:bg-sky-500 text-white py-2 px-4 rounded"
                 >
                   Edit
                 </button>
                 <button
                   onClick={handleLogout}
-                  className="mt-6 w-1/2 bg-slate-300 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                  className="mt-6 w-1/2 bg-slate-300 hover:bg-red-700 text-white  py-2 px-4 rounded"
                 >
                   Log Out
                 </button>
+
               </div>
+              <div className="flex space-x-2">
+                {/* New Button for Viewing Reviews */}
+                <button
+                    onClick={() => navigate('/user-reviews')}
+                    className="mt-6 w-1/2 bg-sky-400 hover:bg-sky-500 text-white py-2 px-4 rounded"
+                >
+                  View Reviews
+                </button>
+                <button
+              onClick={handleDelete}
+              className="mt-6 w-1/2 bg-red-800 hover:bg-red-900 text-white py-2 px-4 rounded"
+          >
+            Delete Account
+          </button>
+          </div>
             </>
           )}
 
@@ -285,6 +339,7 @@ const UserProfilePage: React.FC = () => {
 
 
         </div>
+
 
         <UserService />
 
@@ -311,13 +366,12 @@ const UserProfilePage: React.FC = () => {
 
           <div className="mt-6">
             <details>
-            <summary className="text-sm leading-6 text-slate-900 dark:text-white font-semibold select-none ">
-              
-              <span className=" text-lg font-semibold text-center mt-6 w-1/2 bg-sky-400 hover:bg-sky-500 text-white  py-2 px-4 rounded" >Add a New Pet</span>
+              <summary className=" flex  select-none text-center ">
+                <span className="   mt-6 w-full bg-sky-400 hover:bg-sky-500 hover:text-white text-white  py-2 px-2 rounded" >Add a New Pet</span>
               </summary>
               <div>
                 <div className="mb-4 mt-4">
-                  <label className=" font-semibold">Name:</label>
+                  <label className=" font-semibold">Name</label>
                   <input
                     type="text"
                     name="name"
@@ -327,7 +381,7 @@ const UserProfilePage: React.FC = () => {
                   />
                 </div>
                 <div className="mb-4">
-                  <label className="block font-semibold">Type:</label>
+                  <label className="block font-semibold">Type</label>
                   <select
                     name="type"
                     value={newPet.type}
@@ -342,7 +396,7 @@ const UserProfilePage: React.FC = () => {
                   </select>
                 </div>
                 <div className="mb-4">
-                  <label className=" font-semibold">Photo:</label>
+                  <label className=" font-semibold">Photo</label>
                   <input
                     type="text"
                     name="photo"
@@ -357,14 +411,14 @@ const UserProfilePage: React.FC = () => {
                 >
                   Add Pet
                 </button>
-            
-          </div></details>
+
+              </div></details>
+
+          </div>
 
         </div>
 
       </div>
-
-    </div>
 
 
 

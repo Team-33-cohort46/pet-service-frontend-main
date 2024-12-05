@@ -208,7 +208,7 @@ details > summary {
   cursor: pointer;
 }
 details[open] > summary span {
-  color:#fff; 
+  color:#6e6e6e; 
  background-color:#eee;
 }
 

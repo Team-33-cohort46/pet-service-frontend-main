@@ -1,50 +1,51 @@
-import React, { useState, useContext } from 'react';
-import { AuthContext } from '../App';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const LoginPage: React.FC = () => {
+const RestoreAccountPage: React.FC = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
+    const [successMessage, setSuccessMessage] = useState("");
     const navigate = useNavigate();
-
-    const { setIsLoggedIn, setIsLoggedOut } = useContext(AuthContext);
 
     const handleChange = (setter: React.Dispatch<React.SetStateAction<string>>) =>
         (e: React.ChangeEvent<HTMLInputElement>) => setter(e.target.value);
 
-    const handleSubmit = async (e: React.FormEvent) => {
+    const handleRestore = async (e: React.FormEvent) => {
         e.preventDefault();
+
         const credentials = { email, password };
 
         try {
-            const response = await fetch("/api/auth/login", {
+            const response = await fetch("/api/auth/register/restore", {
                 method: 'POST',
                 body: JSON.stringify(credentials),
                 headers: { "Content-Type": 'application/json' },
             });
 
-            const result = await response.json();
             if (response.ok) {
-                localStorage.setItem('authToken', result.token);
-                setIsLoggedIn(true);
-                setIsLoggedOut(false);
-                navigate("/user");
+                setSuccessMessage("Ваш аккаунт успешно восстановлен! Теперь вы можете войти.");
+                setError("");
+                setEmail("");
+                setPassword("");
             } else {
-                setError(result.message || "Ошибка входа. Попробуйте снова.");
+                const result = await response.json();
+                setError(result.message || "Не удалось восстановить аккаунт.");
+                setSuccessMessage("");
             }
         } catch (error) {
-            console.error("Ошибка во время входа:", error);
+            console.error("Ошибка при восстановлении аккаунта:", error);
             setError("Произошла ошибка. Попробуйте позже.");
         }
     };
 
     return (
         <div className="min-h-screen bg-gray-100 flex items-center justify-center">
-            <form onSubmit={handleSubmit} className="max-w-md w-full bg-white p-8 shadow-md rounded">
-                <h2 className="text-2xl font-semibold mb-6 text-center">Вход</h2>
+            <form onSubmit={handleRestore} className="max-w-md w-full bg-white p-8 shadow-md rounded">
+                <h2 className="text-2xl font-semibold mb-6 text-center">Восстановление аккаунта</h2>
 
                 {error && <div className="mb-4 text-red-500 text-center">{error}</div>}
+                {successMessage && <div className="mb-4 text-green-500 text-center">{successMessage}</div>}
 
                 <div className="mb-4">
                     <label htmlFor="email" className="block text-gray-700 mb-2">Email:</label>
@@ -60,13 +61,13 @@ const LoginPage: React.FC = () => {
                 </div>
 
                 <div className="mb-4">
-                    <label htmlFor="password" className="block text-gray-700 mb-2">Пароль:</label>
+                    <label htmlFor="newPassword" className="block text-gray-700 mb-2">Новый пароль:</label>
                     <input
                         value={password}
                         onChange={handleChange(setPassword)}
                         type="password"
-                        id="password"
-                        name="password"
+                        id="newPassword"
+                        name="newPassword"
                         className="w-full p-2 border border-gray-300 rounded"
                         required
                     />
@@ -76,20 +77,19 @@ const LoginPage: React.FC = () => {
                     type="submit"
                     className="w-full bg-sky-600 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded"
                 >
-                    Войти
+                    Восстановить аккаунт
                 </button>
 
-                <div className="mt-4 text-center">
-                    <button
-                        onClick={() => navigate("/restore-account")}
-                        className="text-sm text-blue-600 hover:underline"
-                    >
-                        Восстановить аккаунт
-                    </button>
-                </div>
+                <button
+                    type="button"
+                    onClick={() => navigate("/login")}
+                    className="mt-4 w-full bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
+                >
+                    Назад к входу
+                </button>
             </form>
         </div>
     );
 };
 
-export default LoginPage;
+export default RestoreAccountPage;
