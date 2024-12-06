@@ -1,5 +1,5 @@
 import React, { useState, createContext } from 'react';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import UserPage from './pages/UserPage';
 import PetPage from './pages/PetPage';
 import ServicePage from './pages/ServicePage';
