@@ -1,53 +1,123 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 interface User {
   id: number;
   firstName: string;
   lastName: string;
   email: string;
+  averageStars: number;
+  photo?: string;
+  description: string;
+  reviews: { id: number; content: string }[];
 }
+
+const defaultAvatar = "../assets/images/profile-logo.png";
 
 const Users: React.FC = () => {
   const [users, setUsers] = useState<User[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("/api/users") // Replace with your actual backend endpoint
-      .then((response) => response.json())
-      .then((data) => setUsers(data));
-  }, []);
+    const fetchUsers = async () => {
+      const token = localStorage.getItem("authToken");
+
+      if (!token) {
+        navigate("/login");
+        return;
+      }
+
+      try {
+        setLoading(true);
+        const response = await fetch("/api/admin/users?page=0&size=10", {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (response.status === 401) {
+          setError("Unauthorized. Please log in again.");
+          localStorage.removeItem("authToken");
+          navigate("/login");
+          return;
+        }
+
+        if (response.status === 403) {
+          setError("You do not have permission to access this page.");
+          navigate("/forbidden");
+          return;
+        }
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch users.");
+        }
+
+        const data = await response.json();
+        setUsers(data.content || []);
+      } catch (err) {
+        console.error(err);
+        setError("An error occurred while fetching users.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUsers();
+  }, [navigate]);
+
+  const handleEditUser = (userId: number) => {
+    navigate(`/admin/users/edit/${userId}`);
+  };
 
   return (
-    <div>
-      <h1 className="text-2xl font-bold mb-4">Users</h1>
-      <table className="table-auto w-full border-collapse border border-gray-300">
-        <thead>
-          <tr className="bg-gray-100">
-            <th className="border border-gray-300 p-2">Name</th>
-            <th className="border border-gray-300 p-2">Email</th>
-            <th className="border border-gray-300 p-2">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
+    <div className="max-w-6xl mx-auto p-8 mt-8 bg-gray-50 shadow-md rounded-lg">
+      <h1 className="text-4xl font-bold text-gray-800 mb-6 text-center">Users</h1>
+      {error && <p className="text-red-500 text-center">{error}</p>}
+      {loading ? (
+        <p className="text-center text-gray-500">Loading...</p>
+      ) : (
+        <div className="grid grid-cols-1 gap-6">
           {users.map((user) => (
-            <tr key={user.id}>
-              <td className="border border-gray-300 p-2">
-                {user.firstName} {user.lastName}
-              </td>
-              <td className="border border-gray-300 p-2">{user.email}</td>
-              <td className="border border-gray-300 p-2">
-                <button className="bg-blue-500 text-white p-2 rounded mr-2">
-                  Edit
-                </button>
-                <button className="bg-red-500 text-white p-2 rounded">
-                  Delete
-                </button>
-              </td>
-            </tr>
+            <div
+              key={user.id}
+              className="flex bg-white border rounded-lg shadow-md p-6 items-center hover:bg-gray-100 transition"
+            >
+              {/* Левая часть: фото */}
+              <div className="w-1/5 flex justify-center">
+                <img
+                  src={user.photo || defaultAvatar}
+                  alt={`${user.firstName} ${user.lastName}`}
+                  className="w-24 h-24 rounded-full object-cover"
+                />
+              </div>
+
+              {/* Правая часть: информация о пользователе */}
+              <div className="w-4/5 pl-6">
+                <h2 className="text-2xl font-bold text-gray-800">
+                  {user.firstName} {user.lastName}
+                </h2>
+                <p className="text-gray-600 text-sm">{user.email}</p>
+                <p className="text-gray-600 mt-2">{user.description}</p>
+
+                <div className="mt-4 flex">
+                  <button
+                    onClick={() => handleEditUser(user.id)}
+                    className="bg-blue-600 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-700 transition"
+                  >
+                    Edit
+                  </button>
+                </div>
+              </div>
+            </div>
           ))}
-        </tbody>
-      </table>
+        </div>
+      )}
     </div>
   );
 };
 
 export default Users;
+  
