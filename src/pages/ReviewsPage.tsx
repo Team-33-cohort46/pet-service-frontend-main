@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import star from '../asets/images/star.png';
 import emptyStar from '../asets/images/empty-star.png'
-import halfstar from '../asets/images/half-star.png'
+import halfStar from '../asets/images/half-star.png'
 
 interface Review {
   reviewerEmail: string;
