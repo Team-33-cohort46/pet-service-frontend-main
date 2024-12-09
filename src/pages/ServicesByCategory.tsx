@@ -90,7 +90,6 @@ const ServicesByCategory: React.FC = () => {
               <p>{service.description}</p>
               <p className="font-bold mt-2"> {service.price} €</p>
               <p className="flex space-x-2 mb-4"><strong>Rating:</strong> {renderStars(service.user.averageStars)}</p>
-             
               <Link
                 to={`/booking/${service.id}`}
                 state={{ service }}
