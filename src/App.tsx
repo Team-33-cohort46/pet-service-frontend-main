@@ -18,7 +18,6 @@ import CategoriesPage from './pages/CategoriesPage';
 import ReviewPage from "./pages/ReviewPage";
 import UserReviewsPage from "./pages/UserReviewsPage";
 import RestoreAccountPage from "./pages/RestoreAccountPage";
-import SittersReviewsPage from "./pages/SittersReviewsPage";
 
 // Создаем контекст для авторизации
 export const AuthContext = createContext({
