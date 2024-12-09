@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 const UserReviewsPage: React.FC = () => {
     const [reviews, setReviews] = useState<any[]>([]);
     const [error, setError] = useState("");
+    const [loading, setLoading] = useState(true);
 
     const fetchReviews = async () => {
         const token = localStorage.getItem('authToken');
@@ -25,6 +26,8 @@ const UserReviewsPage: React.FC = () => {
         } catch (err) {
             console.error('Error fetching reviews:', err);
             setError('Failed to fetch reviews.');
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -32,28 +35,51 @@ const UserReviewsPage: React.FC = () => {
         fetchReviews();
     }, []);
 
+    const renderStars = (stars: number) => {
+        return Array.from({ length: stars }, (_, i) => (
+            <span key={i} className="text-yellow-500">★</span>
+        ));
+    };
+
     if (error) {
         return <div className="text-center text-red-500 mt-4">{error}</div>;
     }
 
     return (
-        <div className="min-h-screen p-8">
-            <h1 className="text-2xl font-bold mb-6">Your Reviews</h1>
-            {reviews.length === 0 ? (
-                <p>No reviews available.</p>
+        <div className="p-4 flex flex-col items-center">
+            <h1 className="text-2xl font-bold mb-4">User Reviews</h1>
+            {loading ? (
+                <div>Loading...</div>
+            ) : reviews.length === 0 ? (
+                <p>No reviews available for this user.</p>
             ) : (
-                <ul className="space-y-4">
-                    {reviews.map((review) => (
-                        <li key={review.id} className="p-4 border rounded shadow">
-                            <p><strong>Message:</strong> {review.message}</p>
-                            <p><strong>Stars:</strong> {review.stars}</p>
-                            <p><strong>Reviewer:</strong> {review.reviewerEmail}</p>
-                        </li>
+                <div
+                    className="relative flex flex-col items-center w-full"
+                    style={{ maxHeight: '500px', overflowY: 'auto' }}
+                >
+                    {reviews.map((review, index) => (
+                        <div
+                            key={index}
+                            className="bg-gray-100 p-4 rounded-lg shadow-md max-w-lg mx-auto mb-4 fade-in"
+                            style={{
+                                borderRadius: '20px',
+                                backgroundColor: '#e1f5fe',
+                                boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+                                animation: 'fadeIn 1.5s ease-in-out',
+                            }}
+                        >
+                            <div className="flex justify-between items-center mb-2">
+                                <p className="text-sm font-semibold text-blue-600">{review.reviewerEmail}</p>
+                                <div className="flex items-center">{renderStars(review.stars)}</div>
+                            </div>
+                            <p className="text-gray-800 text-sm">{review.message}</p>
+                        </div>
                     ))}
-                </ul>
+                </div>
             )}
         </div>
     );
 };
 
 export default UserReviewsPage;
+
