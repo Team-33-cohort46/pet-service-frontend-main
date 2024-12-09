@@ -56,7 +56,13 @@ const ReviewsPage: React.FC = () => {
   }, [email]);
 
   const fetchReviews = async (email: string) => {
+    setLoading(true);
     try {
+      const token = localStorage.getItem('authToken');
+      
+      if (!token) {
+        throw new Error('No authentication token found');
+      }
       const response = await fetch(`/api/auth/user/reviews/${email}`, {
                 method: 'GET',
                 headers: {
