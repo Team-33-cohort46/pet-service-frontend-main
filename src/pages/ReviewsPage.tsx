@@ -57,7 +57,7 @@ const ReviewsPage: React.FC = () => {
 
   const fetchReviews = async (email: string) => {
     try {
-      const response = await fetch(`/api/auth/user/${email}`);
+      const response = await fetch(`/api/auth/user/reviews/${email}`);
       if (!response.ok) throw new Error('Failed to fetch user reviews');
       const data = await response.json();
       if (!data.reviews) throw new Error('No reviews found for this user');
