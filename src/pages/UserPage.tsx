@@ -7,6 +7,8 @@ import profilePhoto from '../asets/images/user.png'
 import star from '../asets/images/star.png'
 import emptyStar from '../asets/images/empty-star.png'
 import halfstar from '../asets/images/half-star.png'
+import UserBooked from './UserBooked';
+import UserOrders from './UserOrders';
 
 const UserProfilePage: React.FC = () => {
   const [user, setUser] = useState<any>(null);
@@ -376,9 +378,12 @@ const UserProfilePage: React.FC = () => {
           </button>
           </div>
             </>
+
           )}
-
-
+<div className='grid grid-cols-1 xl:grid-cols-2'>
+<UserBooked />
+<UserOrders />
+</div>
 
 
 

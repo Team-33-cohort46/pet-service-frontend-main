@@ -102,17 +102,17 @@ const App: React.FC = () => {
                   <div className="flex items-center space-x-4">
                     {isLoggedIn ? (
                       <>
-                      <Link to="/user" className="hover:text-theme-blue">
-                        <img
-                          src="https://cdn-icons-png.flaticon.com/512/8188/8188360.png"
-                          alt="Profile Icon"
-                          className="h-6 w-6"
-                        />
-                      </Link>
-                                    <Link to="/review" className="bg-sky-400 hover:bg-sky-500 text-white px-4 py-2 rounded-md hover:bg-theme-blue-light" >
-                                        Leave review
-                                    </Link>
-                                    </>
+                        <Link to="/user" className="hover:text-theme-blue">
+                          <img
+                            src="https://cdn-icons-png.flaticon.com/512/8188/8188360.png"
+                            alt="Profile Icon"
+                            className="h-6 w-6"
+                          />
+                        </Link>
+                        <Link to="/review" className="bg-sky-400 hover:bg-sky-500 text-white px-4 py-2 rounded-md hover:bg-theme-blue-light" >
+                          Leave review
+                        </Link>
+                      </>
                     ) : (
                       <>
                         <Link to="/register" className="text-gray-700 hover:text-theme-blue">
@@ -147,13 +147,19 @@ const App: React.FC = () => {
                     Contacts
                   </Link>
                   {isLoggedIn ? (
-                    <Link
-                      to="/user"
-                      className="block text-gray-700 hover:text-theme-blue px-3 py-2 rounded-md text-base font-medium"
-                      onClick={() => setIsMenuOpen(false)}
-                    >
-                      Profile
-                    </Link>
+                    <>
+                      <Link
+                        to="/user"
+                        className="block text-gray-700 hover:text-theme-blue px-3 py-2 rounded-md text-base font-medium"
+                        onClick={() => setIsMenuOpen(false)}
+                      >
+                        Profile
+                      </Link>
+
+                      <Link to="/review" className="bg-sky-400 hover:bg-sky-500 text-white px-4 py-2 rounded-md hover:bg-theme-blue-light" >
+                        Leave review
+                      </Link>
+                    </>
                   ) : (
                     <>
                       <Link

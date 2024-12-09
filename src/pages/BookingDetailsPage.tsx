@@ -54,7 +54,7 @@ const BookingDetailsPage: React.FC = () => {
 
     try {
       const token = localStorage.getItem('authToken');
-      const response = await fetch(`/api/bookings/${id}`, {
+      const response = await fetch(`/api/bookings/as-owner`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
