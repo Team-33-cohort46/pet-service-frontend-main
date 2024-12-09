@@ -236,7 +236,7 @@ const UserProfilePage: React.FC = () => {
           />
         </div>
         <div className="mb-4">
-          <label className="font-semibold">Price $</label>
+          <label className="font-semibold">Price €</label>
           <input
             type="text"
             value={newService.price}
@@ -252,8 +252,10 @@ const UserProfilePage: React.FC = () => {
             onChange={(e) =>
               setNewService({ ...newService, description: e.target.value })
             }
+            maxLength={500} // Ограничение на 500 символов
+            rows={10}
             className="w-full border rounded px-2 py-1"
-            placeholder="About your service"
+            placeholder="About your service (max 500 characters)"
           />
         </div>
         <div className="mb-4">
