@@ -79,12 +79,18 @@ const LoginPage: React.FC = () => {
                     Войти
                 </button>
 
-                <div className="mt-4 text-center">
+                <div className="d-flex justify-content-between mt-4">
                     <button
                         onClick={() => navigate("/restore-account")}
                         className="text-sm text-blue-600 hover:underline"
                     >
-                        Восстановить аккаунт
+                        Restore Account
+                    </button>
+                    <button
+                        onClick={() => navigate("/register")}
+                        className="text-sm text-blue-600 hover:underline"
+                    >
+                        Don´t have an account? Sign up
                     </button>
                 </div>
             </form>
