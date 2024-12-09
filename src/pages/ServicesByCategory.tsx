@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import profilePhoto from '../asets/images/user.png'
-import star from '../asets/images/star.png'
-import emptyStar from '../asets/images/empty-star.png'
-import halfstar from '../asets/images/half-star.png'
+import profilePhoto from '../asets/images/user.png';
+import star from '../asets/images/star.png';
+import emptyStar from '../asets/images/empty-star.png';
+import halfstar from '../asets/images/half-star.png';
 const DEFAULT_PHOTO = profilePhoto;
 
 interface Service {
   user: any;
-  photo:any;
+  photo: any;
   id: number;
   firstName: string;
+  lastName: string;
   title: string;
   description: string;
   price: number;
@@ -86,20 +87,29 @@ const ServicesByCategory: React.FC = () => {
             <div key={service.id} className="border p-4 rounded-lg shadow-md">
               <h3 className="text-lg font-semibold">{service.title}</h3>
               
-              <p className="w-100 h-10 flex mt-2 mb-2"><img src={service.user.photo || DEFAULT_PHOTO} alt="" className=" rounded-full" /><span className=" flex pt-2 ml-3">{service.user.firstName} {service.user.lastName}</span></p>
+              <p className="w-100 h-10 flex mt-2 mb-2">
+                <img src={service.user.photo || DEFAULT_PHOTO} alt="" className="rounded-full" />
+                <span className="flex pt-2 ml-3">
+                  {service.user.firstName} {service.user.lastName}
+                </span>
+              </p>
               <p>{service.description}</p>
               <p className="font-bold mt-2"> {service.price} €</p>
-              <p className="flex space-x-2 mb-4"><strong>Rating:</strong> {renderStars(service.user.averageStars)}</p>
-               <Link
-                to={`/reviews/${service.user.email}`} 
-                className="text-sm text-blue-600 hover:underline"
-              >
-                View Reviews
-              </Link>
+              <div className="flex justify-between items-center mb-4">
+                <p className="flex space-x-2">
+                  <strong>Rating:</strong> {renderStars(service.user.averageStars)}
+                </p>
+                <Link
+                  to={`/reviews/${service.user.email}`} 
+                  className="text-sm text-blue-600 hover:underline"
+                >
+                  (reviews)
+                </Link>
+              </div>
               <Link
                 to={`/booking/${service.id}`}
                 state={{ service }}
-                className=" bg-sky-400 hover:bg-sky-500 text-white  py-2 px-4 rounded"
+                className="bg-sky-400 hover:bg-sky-500 text-white py-2 px-4 rounded"
               >
                 Book this service
               </Link>
@@ -111,4 +121,4 @@ const ServicesByCategory: React.FC = () => {
   );
 };
 
-export default ServicesByCategory; 
+export default ServicesByCategory;
