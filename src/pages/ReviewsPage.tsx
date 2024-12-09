@@ -56,30 +56,40 @@ const ReviewsPage: React.FC = () => {
   }, [email]);
 
   const fetchReviews = async (email: string) => {
-    setLoading(true);
-    try {
-      const token = localStorage.getItem('authToken');
-      
-      if (!token) {
-        throw new Error('No authentication token found');
-      }
-      const response = await fetch(`/api/auth/user/reviews/${email}`, {
-                method: 'GET',
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            });
-      if (!response.ok) throw new Error('Failed to fetch user reviews');
-      const data = await response.json();
-      if (!data.reviews) throw new Error('No reviews found for this user');
-      setReviews(data.reviews);
-    } catch (error) {
-      console.error(error);
-      alert('Error fetching reviews.');
-    } finally {
-      setLoading(false);
+  setLoading(true);
+  try {
+    const token = localStorage.getItem('authToken');
+    if (!token) {
+      throw new Error('No authentication token found');
     }
-  };
+
+    const response = await fetch(`/api/auth/user/reviews/${email}`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to fetch user reviews');
+    }
+
+    const data = await response.json();
+
+
+    if (!data || data.length === 0) {
+      throw new Error('No reviews found for this user');
+    }
+
+    // Устанавливаем отзывы в состояние
+    setReviews(data);
+  } catch (error) {
+    console.error(error);
+    alert('Error fetching reviews.');
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <div className="p-4">
