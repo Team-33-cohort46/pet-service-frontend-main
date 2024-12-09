@@ -195,7 +195,6 @@ const App: React.FC = () => {
               <Route path="/review" element={<ReviewPage />} />
               <Route path="/user-reviews" element={<UserReviewsPage />} />
               <Route path="/restore-account" element={<RestoreAccountPage />} />
-              <Route path="/reviews/:email" element={<SittersReviewsPage />} />
             </Routes>
           </div>
 
