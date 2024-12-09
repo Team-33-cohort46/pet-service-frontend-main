@@ -18,6 +18,7 @@ import CategoriesPage from './pages/CategoriesPage';
 import ReviewPage from "./pages/ReviewPage";
 import UserReviewsPage from "./pages/UserReviewsPage";
 import RestoreAccountPage from "./pages/RestoreAccountPage";
+import SittersReviewsPage from "./pages/SittersReviewsPage";
 
 // Создаем контекст для авторизации
 export const AuthContext = createContext({
@@ -194,6 +195,7 @@ const App: React.FC = () => {
               <Route path="/review" element={<ReviewPage />} />
               <Route path="/user-reviews" element={<UserReviewsPage />} />
               <Route path="/restore-account" element={<RestoreAccountPage />} />
+              <Route path="/reviews/:email" element={<SittersReviewsPage />} />
             </Routes>
           </div>
 

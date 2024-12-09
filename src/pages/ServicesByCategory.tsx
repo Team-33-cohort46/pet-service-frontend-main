@@ -91,6 +91,13 @@ const ServicesByCategory: React.FC = () => {
               <p className="font-bold mt-2"> {service.price} €</p>
               <p className="flex space-x-2 mb-4"><strong>Rating:</strong> {renderStars(service.user.averageStars)}</p>
               <Link
+                  to={`/reviews/${service.user.email}`}
+                  className="text-sm text-blue-600 hover:underline"
+              >
+                View Reviews
+              </Link>
+
+              <Link
                 to={`/booking/${service.id}`}
                 state={{ service }}
                 className=" bg-sky-400 hover:bg-sky-500 text-white  py-2 px-4 rounded"
