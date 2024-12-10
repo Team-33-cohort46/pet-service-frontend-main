@@ -53,11 +53,22 @@ const UserProfilePage: React.FC = () => {
     );
   };
   
-  
+  const isTokenExpired = (token: string): boolean => {
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      const currentTime = Math.floor(Date.now() / 1000); // Текущее время в секундах
+      return payload.exp < currentTime; // Истёк ли токен
+    } catch (error) {
+      console.error("Failed to decode token:", error);
+      return true; // Если ошибка, считаем токен недействительным
+    }
+  };
 
   const fetchUserData = useCallback(async () => {
     const token = localStorage.getItem('authToken');
-    if (!token) {
+    if (!token || isTokenExpired(token)) {
+      localStorage.removeItem('authToken');
+      setIsLoggedIn(false);
       navigate("/login");
       return;
     }
@@ -102,10 +113,15 @@ const UserProfilePage: React.FC = () => {
     setEditableUser((prev: any) => ({ ...prev, [name]: value }));
   };
 
-  const handleSave = async () => {
+const handleSave = async () => {
     const token = localStorage.getItem('authToken');
-    if (!token) return;
-
+    if (!token || isTokenExpired(token)) {
+      localStorage.removeItem('authToken');
+      setIsLoggedIn(false);
+      navigate('/login');
+      return;
+    }
+  
     try {
       const response = await fetch("/api/auth/me", {
         method: 'PUT',
@@ -115,11 +131,11 @@ const UserProfilePage: React.FC = () => {
         },
         body: JSON.stringify(editableUser),
       });
-
+  
       if (!response.ok) {
         throw new Error(`Failed to update user data: ${response.status}`);
       }
-
+  
       const updatedUser = await response.json();
       setUser(updatedUser);
       setIsEditing(false);
