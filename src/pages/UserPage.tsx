@@ -17,7 +17,7 @@ const UserPage: React.FC = () => {
   const [editableUser, setEditableUser] = useState<any>(null);
   const [error, setError] = useState("");
   const [isEditing, setIsEditing] = useState(false);
-  const [selectedSection, setSelectedSection] = useState<'services' | 'pets' | 'bookings' | 'logout' | 'personal' | 'reviews' |null>(null); // Состояние для выбранной секции
+  const [selectedSection, setSelectedSection] = useState<'services' | 'pets' | 'bookings' | 'logout' | 'personal' | 'reviews'>('personal'); // Состояние для выбранной секции
   const navigate = useNavigate();
   const { setIsLoggedIn, setIsLoggedOut } = useContext(AuthContext);
 
@@ -305,10 +305,10 @@ const UserPage: React.FC = () => {
 
   return (
     <div className="p-4">
-       {/* Верхняя частиь: Информация о пользователе*/}
+       {/* Верхняя частиь: Информация о пользователе
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full p-8 border rounded mb-4">
-        <h2 className="text-2xl font-bold mb-6 text-center">Welcome {user.firstName}</h2>
-        {/* Отображение информации о пользователе */}
+        <h2 className="text-2xl font-bold mb-6 text-center">Welcome {user.firstName}</h2>*/}
+        {/* Отображение информации о пользователе 
         <div className="mb-4">
           <img src={user.photo || DEFAULT_PHOTO} alt="" className="w-32 h-32 object-cover rounded-full mx-auto" />
         </div>
@@ -319,76 +319,15 @@ const UserPage: React.FC = () => {
         <p><strong>Description:</strong> {user.description}</p>
         <p className="flex space-x-2"><strong>Rating:</strong> {renderStars(user.averageStars)}</p>
         </div>
-      </div>
+      </div>*/}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {/* Левая колонка: кнопки */}
         <div className="w-full p-8 border rounded">
           
-
-          {isEditing ? (
-            <>
-              {/* Форма редактирования профиля */}
-              <div className="mb-4">
-                <label className="block font-semibold">Photo:</label>
-                <input
-                  type="file"
-                  onChange={handleFileChange}
-                  className="w-full border border-gray-300 rounded px-3 py-2"
-                />
-                <button
-                  type="button"
-                  onClick={handlePhotoUpload}
-                  className="mt-2 bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded"
-                >
-                  Upload Photo
-                </button>
-              </div>
-              <div className="mb-4">
-                <label className="block font-semibold">Name:</label>
-                <input
-                  type="text"
-                  name="firstName"
-                  value={editableUser.firstName}
-                  onChange={handleInputChange}
-                  className="w-full border border-gray-300 rounded px-3 py-2"
-                />
-              </div>
-              <div className="mb-4">
-                <label className="block font-semibold">Last name:</label>
-                <input
-                  type="text"
-                  name="lastName"
-                  value={editableUser.lastName}
-                  onChange={handleInputChange}
-                  className="w-full border border-gray-300 rounded px-3 py-2"
-                />
-              </div>
-              <div className="mb-4">
-                <label className="block font-semibold">Description:</label>
-                <textarea
-                  name="description"
-                  value={editableUser.description}
-                  onChange={handleInputChange}
-                  className="w-full border border-gray-300 rounded px-3 py-2"
-                />
-              </div>
-              <div className="flex space-x-2">
-                <button
-                  onClick={handleSave}
-                  className="mt-2 w-1/2 bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded"
-                >
-                  Save
-                </button>
-                <button
-                  onClick={() => setIsEditing(false)}
-                  className="mt-2 w-1/2 bg-gray-600 hover:bg-gray-700 text-white py-2 px-4 rounded"
-                >
-                  Cancel
-                </button>
-              </div>
-            </>
-          ) : (
-            <>
+        <div className="mb-4">
+          <img src={user.photo || DEFAULT_PHOTO} alt="" className="w-32 h-32 object-cover rounded-full mx-auto" />
+        </div>
+        <h2 className="text-2xl font-bold mb-6 text-center">{user.firstName} {user.lastName}</h2>
 
               {/*<div className="flex space-x-2 mt-4">
                 <button
@@ -463,19 +402,83 @@ const UserPage: React.FC = () => {
                 </button>
 
               </div>
-            </>
-          )}
+
         </div>
 
         {/* Правая колонка: Основной контент в зависимости от выбранной секции */}
         <div className="md:col-span-2 w-full p-8 border rounded">
         {selectedSection === 'personal' && (
             <div>
+              {isEditing ? (
+            <>
+              {/* Форма редактирования профиля */}
+              <div className="mb-4">
+                <label className="block font-semibold">Photo:</label>
+                <input
+                  type="file"
+                  onChange={handleFileChange}
+                  className="w-full border border-gray-300 rounded px-3 py-2"
+                />
+                <button
+                  type="button"
+                  onClick={handlePhotoUpload}
+                  className="mt-2 bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded"
+                >
+                  Upload Photo
+                </button>
+              </div>
+              <div className="mb-4">
+                <label className="block font-semibold">Name:</label>
+                <input
+                  type="text"
+                  name="firstName"
+                  value={editableUser.firstName}
+                  onChange={handleInputChange}
+                  className="w-full border border-gray-300 rounded px-3 py-2"
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block font-semibold">Last name:</label>
+                <input
+                  type="text"
+                  name="lastName"
+                  value={editableUser.lastName}
+                  onChange={handleInputChange}
+                  className="w-full border border-gray-300 rounded px-3 py-2"
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block font-semibold">Description:</label>
+                <textarea
+                  name="description"
+                  value={editableUser.description}
+                  onChange={handleInputChange}
+                  className="w-full border border-gray-300 rounded px-3 py-2"
+                />
+              </div>
+              <div className="flex space-x-2">
+                <button
+                  onClick={handleSave}
+                  className="mt-2 w-1/2 bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded"
+                >
+                  Save
+                </button>
+                <button
+                  onClick={() => setIsEditing(false)}
+                  className="mt-2 w-1/2 bg-gray-600 hover:bg-gray-700 text-white py-2 px-4 rounded"
+                >
+                  Cancel
+                </button>
+              </div>
+            </>
+          ) : (
+            <>
+
               <h3 className="text-2xl font-bold mb-4">My Personal Data</h3>
               {/* Отображение информации о пользователе */}
-              <div className="mb-4">
+              {/*<div className="mb-4">
                 <img src={user.photo || DEFAULT_PHOTO} alt="" className="w-32 h-32 object-cover rounded-full mx-auto" />
-              </div>
+              </div>*/}
               <p><strong>Name:</strong> {user.firstName}</p>
               <p><strong>Last name:</strong> {user.lastName}</p>
               <p><strong>Email:</strong> {user.email}</p>
@@ -491,12 +494,7 @@ const UserPage: React.FC = () => {
                 
               </div>
               <div className="flex space-x-2 mt-2">
-                <button
-                  onClick={() => navigate('/user-reviews')}
-                  className="w-full bg-sky-400 hover:bg-sky-500 text-white py-2 px-4 rounded"
-                >
-                  View Reviews
-                </button>
+            
                 <button
                   onClick={handleDelete}
                   className="w-full bg-red-800 hover:bg-red-900 text-white py-2 px-4 rounded"
@@ -504,6 +502,8 @@ const UserPage: React.FC = () => {
                   Delete Account
                 </button>
               </div>
+              </>
+          )}
             </div>
           )}
 
