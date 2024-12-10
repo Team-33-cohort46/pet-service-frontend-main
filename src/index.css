@@ -44,7 +44,77 @@
 .fade-in {
   animation: fadeIn 0.5s ease-in-out;
 }
+.fancy-button {
+  border: none;
+  color: #ffffff;
+  font-weight: 600;
+  background-image: linear-gradient(30deg, #52e0f6, #44a9b6);
+  border-radius: 20px;
+  background-size: 100% auto;
+  font-family: inherit;
+  font-size: 17px;
+  padding: 0.6em 1.5em;
+  transition: background-size 0.3s, background-position 0.3s;
+}
 
+.fancy-button:hover {
+  background-position: right center;
+  background-size: 200% auto;
+  animation: pulse512 1.5s infinite;
+}
+
+@keyframes pulse512 {
+  0% {
+    box-shadow: 0 0 0 0 #05bada66;
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgb(218 103 68 / 0%);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgb(218 103 68 / 0%);
+  }
+}
+
+/* From Uiverse.io by WhiteNervosa */
+.button-fancy1 {
+  font-size: 18px;
+  color: #0e0909;
+  font-family: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  position: relative;
+  border: none;
+  background: none;
+  text-transform: lowercase;
+  transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
+  transition-duration: 400ms;
+  transition-property: color;
+}
+
+.button-fancy1:focus,
+button:hover {
+  color: #0c0808;
+}
+
+.button-fancy1:focus:after,
+.button-fancy1:hover:after {
+  width: 100%;
+  left: 0%;
+}
+
+.button-fancy1:after {
+  content: "";
+  pointer-events: none;
+  bottom: -2px;
+  left: 50%;
+  position: absolute;
+  width: 0%;
+  height: 2px;
+  background-color: #130e0e;
+  transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
+  transition-duration: 400ms;
+  transition-property: width, left;
+}
 
   
   
