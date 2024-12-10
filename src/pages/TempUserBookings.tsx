@@ -11,6 +11,8 @@ interface Booking {
   endDate: string;
   ownerId: number;
   sitterId: number;
+  ownerName: string;
+  sitterName: string;
 }
 
 const Bookings: React.FC = () => {
@@ -19,6 +21,7 @@ const Bookings: React.FC = () => {
   const [activeTab, setActiveTab] = useState<string>('owner');
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [notification, setNotification] = useState<string | null>(null); // Для отображения уведомлений
 
   const authToken = localStorage.getItem('authToken');
 
@@ -57,7 +60,7 @@ const Bookings: React.FC = () => {
     fetchBookings();
   }, [authToken]);
 
-  const changeStatus = async (bookingId: number, newStatus: string, isOwner: boolean) => {
+  const changeStatus = async (bookingId: number, newStatus: string, isOwner: boolean, booking: Booking) => {
     try {
       const endpoint = `/api/bookings/${bookingId}`;
       const body = JSON.stringify({ status: newStatus });
@@ -85,6 +88,10 @@ const Bookings: React.FC = () => {
             )
           );
         }
+
+        // Уведомление об изменении статуса
+        const participantName = isOwner ? booking.sitterName : booking.ownerName;
+        setNotification(`The booking status has been changed to "${newStatus}" and the notification has been sent to ${participantName}.`);
       } else {
         throw new Error('Failed to update status');
       }
@@ -120,6 +127,12 @@ const Bookings: React.FC = () => {
         <BookingsList bookings={ownerBookings} isOwner={true} changeStatus={changeStatus} />
       ) : (
         <BookingsList bookings={sitterBookings} isOwner={false} changeStatus={changeStatus} />
+      )}
+
+      {notification && (
+        <div className="mt-4 p-4 border bg-green-100 text-green-800 rounded">
+          {notification}
+        </div>
       )}
     </div>
   );

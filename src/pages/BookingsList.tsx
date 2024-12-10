@@ -9,12 +9,16 @@ interface Booking {
   price: number;
   startDate: string;
   endDate: string;
+  ownerId: number;
+  sitterId: number;
+  ownerName: string;
+  sitterName: string;
 }
 
 interface BookingsListProps {
   bookings: Booking[];
   isOwner: boolean;
-  changeStatus: (bookingId: number, newStatus: string, isOwner: boolean) => void;
+  changeStatus: (bookingId: number, newStatus: string, isOwner: boolean, booking: Booking) => void;
 }
 
 const BookingsList: React.FC<BookingsListProps> = ({ bookings, isOwner, changeStatus }) => {
