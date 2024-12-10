@@ -156,14 +156,14 @@ const App: React.FC = () => {
                     <>
                       <Link
                         to="/register"
-                        className="fancy-button"
+                        className="block text-gray-700 hover:text-theme-blue px-3 py-2 rounded-md text-base font-medium"
                         onClick={() => setIsMenuOpen(false)}
                       >
                         Sign up
                       </Link>
                       <Link
                         to="/login"
-                        className="fancy-button"
+                        className="block text-gray-700 hover:text-theme-blue px-3 py-2 rounded-md text-base font-medium"
                         onClick={() => setIsMenuOpen(false)}
                       >
                         Log in
