@@ -160,7 +160,7 @@ const BookingDetails: React.FC = () => {
               <button
                 type="button"
                 onClick={handleBooking}
-                className="w-full bg-[rgb(48,183,213)] text-white font-medium py-3 rounded-lg shadow-md hover:bg-[rgb(99,196,218)] transition"
+                className="w-full fancy-button"
               >
                 Confirm Booking
               </button>

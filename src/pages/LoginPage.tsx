@@ -42,7 +42,7 @@ const LoginPage: React.FC = () => {
     return (
         <div className="min-h-screen bg-gray-100 flex items-center justify-center">
             <form onSubmit={handleSubmit} className="max-w-md w-full bg-white p-8 shadow-md rounded">
-                <h2 className="text-2xl font-semibold mb-6 text-center">Вход</h2>
+                <h2 className="text-2xl font-semibold mb-6 text-center">Welcome</h2>
 
                 {error && <div className="mb-4 text-red-500 text-center">{error}</div>}
 
@@ -60,7 +60,7 @@ const LoginPage: React.FC = () => {
                 </div>
 
                 <div className="mb-4">
-                    <label htmlFor="password" className="block text-gray-700 mb-2">Пароль:</label>
+                    <label htmlFor="password" className="block text-gray-700 mb-2">Password:</label>
                     <input
                         value={password}
                         onChange={handleChange(setPassword)}
@@ -74,9 +74,9 @@ const LoginPage: React.FC = () => {
 
                 <button
                     type="submit"
-                    className="w-full bg-sky-600 hover:bg-sky-700 text-white font-bold py-2 px-4 rounded"
+                    className="w-full fancy-button"
                 >
-                    Войти
+                    Sign in
                 </button>
 
                 <div className="d-flex justify-content-between align-items-center mt-4">

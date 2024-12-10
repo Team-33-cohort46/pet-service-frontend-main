@@ -113,10 +113,10 @@ const App: React.FC = () => {
                                     </>
                     ) : (
                       <>
-                        <Link to="/register" className="text-gray-700 hover:text-theme-blue">
+                        <Link to="/register" className="fancy-button">
                           Sign up
                         </Link>
-                        <Link to="/login" className="text-gray-700 hover:text-theme-blue">
+                        <Link to="/login" className="fancy-button">
                           Log in
                         </Link>
                       </>
@@ -156,14 +156,14 @@ const App: React.FC = () => {
                     <>
                       <Link
                         to="/register"
-                        className="block text-gray-700 hover:text-theme-blue px-3 py-2 rounded-md text-base font-medium"
+                        className="fancy-button"
                         onClick={() => setIsMenuOpen(false)}
                       >
                         Sign up
                       </Link>
                       <Link
                         to="/login"
-                        className="block text-gray-700 hover:text-theme-blue px-3 py-2 rounded-md text-base font-medium"
+                        className="fancy-button"
                         onClick={() => setIsMenuOpen(false)}
                       >
                         Log in
