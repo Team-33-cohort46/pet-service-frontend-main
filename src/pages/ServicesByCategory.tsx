@@ -92,7 +92,7 @@ const ServicesByCategory: React.FC = () => {
 
     return (
         <div className="p-4">
-            <h1 className="text-xl font-bold mb-4">Services in Category</h1>
+            <h1 className="hea font-bold mb-4 text-center">Services in Category</h1>
             {loading ? (
                 <div>Loading...</div>
             ) : (
@@ -111,7 +111,7 @@ const ServicesByCategory: React.FC = () => {
                                 <img
                                     src={service.user.photo || DEFAULT_PHOTO}
                                     alt={service.title}
-                                    className="rounded-lg h-48 object-cover mb-4"
+                                    className="rounded-lg h-80 w-full object-cover mb-4"
                                 />
                                 <div className="text-center">
                                     <p className="text-black-500 text-xl font-semibold">
@@ -141,27 +141,35 @@ const ServicesByCategory: React.FC = () => {
                     </div>
 
                     {/* Пагинация */}
-                    <div className="flex justify-center mt-6">
+                    <div className="pagination-container">
                         <button
                             onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
                             disabled={currentPage === 1}
-                            className={`px-4 py-2 rounded-l bg-gray-300 hover:bg-gray-400 ${
-                                currentPage === 1 && 'cursor-not-allowed opacity-50'
+                            className={`pagination-button prev ${
+                                currentPage === 1 ? 'disabled' : ''
                             }`}
                         >
-                            Prev
+                            &lt;
                         </button>
-                        <span className="px-4 py-2 bg-white border">
-                            {currentPage} / {totalPages}
-                        </span>
+                        {[...Array(totalPages)].map((_, index) => (
+                            <button
+                                key={index}
+                                onClick={() => setCurrentPage(index + 1)}
+                                className={`pagination-button page-number ${
+                                    currentPage === index + 1 ? 'active' : ''
+                                }`}
+                            >
+                                {index + 1}
+                            </button>
+                        ))}
                         <button
                             onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
                             disabled={currentPage === totalPages}
-                            className={`px-4 py-2 rounded-r bg-gray-300 hover:bg-gray-400 ${
-                                currentPage === totalPages && 'cursor-not-allowed opacity-50'
+                            className={`pagination-button next ${
+                                currentPage === totalPages ? 'disabled' : ''
                             }`}
                         >
-                            Next
+                            &gt;
                         </button>
                     </div>
                 </div>

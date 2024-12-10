@@ -106,7 +106,7 @@ const ReviewsPage: React.FC = () => {
 
   return (
       <div className="p-4 flex flex-col items-center">
-        <h1 className="text-2xl font-bold mb-4">Sitters Reviews</h1>
+        <h1 className="text-2xl font-bold mb-4">Sitter Reviews</h1>
         {loading ? (
             <div>Loading...</div>
         ) : reviews.length === 0 ? (
