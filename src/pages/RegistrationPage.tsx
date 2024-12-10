@@ -46,7 +46,7 @@ const RegistrationPage: React.FC = () => {
 
     return (
         <div className="min-h-screen bg-gray-100 flex items-start justify-center pt-12 px-4">
-            <form onSubmit={signUp} className="max-w-lg w-4/5 scale-90">
+            <form onSubmit={signUp} className="max-w-md w-full bg-white p-8 shadow-md rounded">
                 <h2 className="text-2xl font-semibold mb-6 text-center">Register</h2>
                 {error && (
                     <div className="mb-4 text-red-500 text-sm">
