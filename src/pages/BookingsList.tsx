@@ -1,20 +1,20 @@
+// BookingsList.tsx
 import React from 'react';
+
 import BookingStatusControls from './BookingStatusControls';
-
 interface Booking {
-  id: number;
-  status: string;
-  serviceTitle: string;
-  petName: string;
-  price: number;
-  startDate: string;
-  endDate: string;
-  ownerId: number;
-  sitterId: number;
-  ownerName: string;
-  sitterName: string;
-}
-
+    id: number;
+    status: string;
+    serviceTitle: string;
+    petName: string;
+    price: number;
+    startDate: string;
+    endDate: string;
+    ownerId: number;
+    sitterId: number;
+    ownerName: string;
+    sitterName: string;
+  }
 interface BookingsListProps {
   bookings: Booking[];
   isOwner: boolean;

@@ -1,19 +1,19 @@
+// BookingStatusControls.tsx
 import React from 'react';
 
 interface Booking {
-    id: number;
-    status: string;
-    serviceTitle: string;
-    petName: string;
-    price: number;
-    startDate: string;
-    endDate: string;
-    ownerId: number;
-    sitterId: number;
-    ownerName: string;
-    sitterName: string;
-  }
-  
+  id: number;
+  status: string;
+  serviceTitle: string;
+  petName: string;
+  price: number;
+  startDate: string;
+  endDate: string;
+  ownerId: number;
+  sitterId: number;
+  ownerName: string;
+  sitterName: string;
+}
 
 interface BookingStatusControlsProps {
   booking: Booking;
@@ -21,24 +21,53 @@ interface BookingStatusControlsProps {
   changeStatus: (bookingId: number, newStatus: string, isOwner: boolean, booking: Booking) => void;
 }
 
-const BookingStatusControls: React.FC<BookingStatusControlsProps> = ({ booking, isOwner, changeStatus }) => {
-  const handleChangeStatus = (newStatus: string) => {
-    changeStatus(booking.id, newStatus, isOwner, booking);
+const BookingStatusControls: React.FC<BookingStatusControlsProps> = ({
+  booking,
+  isOwner,
+  changeStatus,
+}) => {
+  const handleCancel = () => {
+    if (isOwner && booking.status !== 'cancelled' && booking.status !== 'confirmed' && booking.status !== 'rejected') {
+      changeStatus(booking.id, 'cancelled', true, booking);
+    }
   };
 
+  const handleConfirm = () => {
+    if (!isOwner && booking.status !== 'confirmed' && booking.status !== 'rejected') {
+      changeStatus(booking.id, 'confirmed', false, booking);
+    }
+  };
+
+  const handleReject = () => {
+    if (!isOwner && booking.status !== 'confirmed' && booking.status !== 'rejected') {
+      changeStatus(booking.id, 'rejected', false, booking);
+    }
+  };
+
+  if (booking.status === 'confirmed' || booking.status === 'rejected') {
+    return null; // No buttons if the status is "Confirmed" or "Rejected"
+  }
+
   return (
-    <div className="flex items-center space-x-4">
-      {booking.status === 'pending' && (
+    <div className="flex space-x-4">
+      {isOwner ? (
+        <button
+          onClick={handleCancel}
+          className="p-2 bg-red-500 text-white rounded hover:bg-red-600"
+        >
+          Cancel
+        </button>
+      ) : (
         <>
           <button
-            className="bg-blue-500 text-white p-2 rounded"
-            onClick={() => handleChangeStatus('confirmed')}
+            onClick={handleConfirm}
+            className="p-2 bg-green-500 text-white rounded hover:bg-green-600"
           >
             Confirm
           </button>
           <button
-            className="bg-red-500 text-white p-2 rounded"
-            onClick={() => handleChangeStatus('rejected')}
+            onClick={handleReject}
+            className="p-2 bg-yellow-500 text-white rounded hover:bg-yellow-600"
           >
             Reject
           </button>

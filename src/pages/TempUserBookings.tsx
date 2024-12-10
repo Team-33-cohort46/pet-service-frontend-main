@@ -1,27 +1,27 @@
+// Bookings.tsx
 import React, { useEffect, useState } from 'react';
+
 import BookingsList from './BookingsList';
-
 interface Booking {
-  id: number;
-  status: string;
-  serviceTitle: string;
-  petName: string;
-  price: number;
-  startDate: string;
-  endDate: string;
-  ownerId: number;
-  sitterId: number;
-  ownerName: string;
-  sitterName: string;
-}
-
+    id: number;
+    status: string;
+    serviceTitle: string;
+    petName: string;
+    price: number;
+    startDate: string;
+    endDate: string;
+    ownerId: number;
+    sitterId: number;
+    ownerName: string;
+    sitterName: string;
+  }
 const Bookings: React.FC = () => {
   const [ownerBookings, setOwnerBookings] = useState<Booking[]>([]);
   const [sitterBookings, setSitterBookings] = useState<Booking[]>([]);
   const [activeTab, setActiveTab] = useState<string>('owner');
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [notification, setNotification] = useState<string | null>(null); // Для отображения уведомлений
+  const [notification, setNotification] = useState<string | null>(null);
 
   const authToken = localStorage.getItem('authToken');
 
@@ -89,7 +89,7 @@ const Bookings: React.FC = () => {
           );
         }
 
-        // Уведомление об изменении статуса
+        // Уведомление
         const participantName = isOwner ? booking.sitterName : booking.ownerName;
         setNotification(`The booking status has been changed to "${newStatus}" and the notification has been sent to ${participantName}.`);
       } else {
