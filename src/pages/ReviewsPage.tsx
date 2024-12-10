@@ -64,7 +64,7 @@ const ReviewsPage: React.FC = () => {
           const randomReview = unseenReviews[Math.floor(Math.random() * unseenReviews.length)];
           setVisibleReviews((prev) => [...prev, randomReview]);
         }
-      }, 200); // Добавляем новый отзыв каждые 3 секунды
+      }, 200);
 
       return () => clearInterval(interval);
     }
@@ -73,17 +73,8 @@ const ReviewsPage: React.FC = () => {
   const fetchReviews = async (email: string) => {
     setLoading(true);
     try {
-      const token = localStorage.getItem('authToken');
-      if (!token) {
-        throw new Error('No authentication token found');
-      }
-
-      const response = await fetch(`/api/auth/user/reviews/${email}`, {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await fetch(`/api/auth/user/reviews/${email}`
+       );
 
       if (!response.ok) {
         throw new Error('Failed to fetch user reviews');
@@ -106,7 +97,7 @@ const ReviewsPage: React.FC = () => {
 
   return (
       <div className="p-4 flex flex-col items-center">
-        <h1 className="text-2xl font-bold mb-4">User Reviews</h1>
+        <h1 className="text-2xl font-bold mb-4">Sitter Reviews</h1>
         {loading ? (
             <div>Loading...</div>
         ) : reviews.length === 0 ? (

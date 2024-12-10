@@ -47,7 +47,7 @@ const RegistrationPage: React.FC = () => {
     return (
         <div className="min-h-screen bg-gray-100 flex items-start justify-center pt-12 px-4">
             <form onSubmit={signUp} className="max-w-md w-full bg-white p-8 shadow-md rounded">
-                <h2 className="text-2xl font-semibold mb-6 text-center">Register</h2>
+                <h2 className="text-2xl font-semibold mb-6 text-center">Create your account</h2>
                 {error && (
                     <div className="mb-4 text-red-500 text-sm">
                         {error}
@@ -115,9 +115,9 @@ const RegistrationPage: React.FC = () => {
                 </div>
                 <button
                     type="submit"
-                    className="w-full bg-sky-600 hover:bg-theme-blue text-white font-bold py-2 px-4 rounded"
+                    className="w-full fancy-button"
                 >
-                    Register
+                    Create account
                 </button>
             </form>
         </div>

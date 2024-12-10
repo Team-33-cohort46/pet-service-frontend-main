@@ -88,10 +88,10 @@ const App: React.FC = () => {
                 <div className="hidden md:flex md:items-center md:space-x-6">
                   {/* Left navigation */}
                   <nav className="flex space-x-6">
-                    <Link to="/categories" className="text-gray-700 hover:text-theme-blue">
+                    <Link to="/categories" className="button-fancy1">
                       Categories
                     </Link>
-                    <Link to="/contacts" className="text-gray-700 hover:text-theme-blue">
+                    <Link to="/contacts" className="button-fancy1">
                       Contacts
                     </Link>
                   </nav>
@@ -107,16 +107,16 @@ const App: React.FC = () => {
                           className="h-6 w-6"
                         />
                       </Link>
-                                    <Link to="/review" className="bg-sky-400 hover:bg-sky-500 text-white px-4 py-2 rounded-md hover:bg-theme-blue-light" >
+                                    <Link to="/review" className="fancy-button text-white rounded-md" >
                                         Leave review
                                     </Link>
                                     </>
                     ) : (
                       <>
-                        <Link to="/register" className="text-gray-700 hover:text-theme-blue">
+                        <Link to="/register" className="fancy-button">
                           Sign up
                         </Link>
-                        <Link to="/login" className="text-gray-700 hover:text-theme-blue">
+                        <Link to="/login" className="fancy-button">
                           Log in
                         </Link>
                       </>

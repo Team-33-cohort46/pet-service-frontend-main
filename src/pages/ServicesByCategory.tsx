@@ -27,20 +27,20 @@ const renderStars = (rating: number) => {
     const emptyStars = 5 - filledStars - (halfStar ? 1 : 0);
 
     return (
-        <div className="flex">
+        <div className="flex justify-center items-center space-x-1">
             {Array.from({ length: filledStars }).map((_, index) => (
                 <img
                     key={`filled-${index}`}
                     src={star}
                     alt="Filled Star"
-                    style={{ width: '16px', height: '16px', margin: '0 2px' }}
+                    className="w-4 h-4 hover:scale-125 hover:brightness-125 cursor-pointer transition-all"
                 />
             ))}
             {halfStar && (
                 <img
                     src={halfstar}
                     alt="Half Star"
-                    style={{ width: '16px', height: '16px', margin: '0 2px' }}
+                    className="w-4 h-4 hover:scale-125 hover:brightness-125 cursor-pointer transition-all"
                 />
             )}
             {Array.from({ length: emptyStars }).map((_, index) => (
@@ -48,7 +48,7 @@ const renderStars = (rating: number) => {
                     key={`empty-${index}`}
                     src={emptyStar}
                     alt="Empty Star"
-                    style={{ width: '16px', height: '16px', margin: '0 2px' }}
+                    className="w-4 h-4 hover:scale-125 hover:brightness-125 cursor-pointer transition-all"
                 />
             ))}
         </div>
@@ -58,7 +58,10 @@ const renderStars = (rating: number) => {
 const ServicesByCategory: React.FC = () => {
     const { categoryId } = useParams<{ categoryId: string }>();
     const [services, setServices] = useState<Service[]>([]);
+    const [currentPage, setCurrentPage] = useState(1);
     const [loading, setLoading] = useState<boolean>(true);
+
+    const ITEMS_PER_PAGE = 3;
 
     useEffect(() => {
         if (categoryId) {
@@ -71,7 +74,7 @@ const ServicesByCategory: React.FC = () => {
             const response = await fetch(`/api/services?categoryId=${categoryId}`);
             if (!response.ok) throw new Error('Failed to fetch services');
             const data = await response.json();
-            setServices(data.content); // Adjust this based on the response structure
+            setServices(data.content);
         } catch (error) {
             console.error(error);
             alert('Error fetching services.');
@@ -80,71 +83,104 @@ const ServicesByCategory: React.FC = () => {
         }
     };
 
+    const totalPages = Math.ceil(services.length / ITEMS_PER_PAGE);
+
+    const paginatedServices = services.slice(
+        (currentPage - 1) * ITEMS_PER_PAGE,
+        currentPage * ITEMS_PER_PAGE
+    );
+
     return (
         <div className="p-4">
-            <h1 className="text-xl font-bold mb-4">Services in Category</h1>
+            <h1 className="hea font-bold mb-4 text-center">Services in Category</h1>
             {loading ? (
                 <div>Loading...</div>
             ) : (
-                <div className="space-y-4 overflow-y-auto" style={{ maxHeight: '80vh' }}>
-                    {services.map((service) => (
-                        <div
-                            key={service.id}
-                            className="border rounded-lg shadow-md flex flex-col lg:flex-row items-start p-4"
-                            style={{
-                                minHeight: '280px', //
-                                width: '100%',
-                            }}
-                        >
-                            <div className="lg:w-1/4 w-full h-40 lg:h-auto">
+                <div
+                    className="rounded-lg shadow-lg p-6  mx-auto"
+                >
+                    <div
+                        className="grid grid-cols-1 md:grid-cols-3 gap-6"
+                        style={{ maxWidth: '1500px', margin: '0 auto' }}
+                    >
+                        {paginatedServices.map((service) => (
+                            <div
+                                key={service.id}
+                                className="flex flex-col items-center p-4 border-2 "
+                            >
                                 <img
                                     src={service.user.photo || DEFAULT_PHOTO}
                                     alt={service.title}
-                                    className="rounded-lg w-full h-full object-cover"
+                                    className="rounded-lg h-80 w-full object-cover mb-4"
                                 />
-                            </div>
-                            <div className="lg:w-3/4 w-full lg:pl-6 flex flex-col justify-between">
-
-                                <div className="flex items-center mt-2 mb-4">
-                                    <span className="text-lg font-semibold mr-3">
+                                <div className="text-center">
+                                    <p className="text-black-500 text-xl font-semibold">
                                         {service.user.firstName} {service.user.lastName}
-                                    </span>
-                                    <div className="flex items-center">
-                                        {renderStars(service.user.averageStars)}
-                                        <Link
-                                            to={`/reviews/${service.user.email}`}
-                                            className="text-sm text-blue-600 hover:underline ml-2"
-                                        >
-                                            (reviews)
-                                        </Link>
-                                    </div>
+                                    </p>
+                                    <h3 className="text-lg font-semibold">{service.title}</h3>
+                                    <div className="mt-2">{renderStars(service.user.averageStars)}</div>
+                                    <Link
+                                        to={`/reviews/${service.user.email}`}
+                                        className="text-sm text-blue-600 hover:underline mt-2 block"
+                                    >
+                                        See Reviews
+                                    </Link>
+                                    <p className="text-sm text-gray-500 mt-2">Email: {service.user.email}</p>
+                                    <p className="font-semibold text-md mt-2">Price: {service.price} €</p>
+                                    <p className="text-sm text-gray-700">{service.description}</p>
                                 </div>
-
-                                <h3 className="text-lg font-semibold">{service.title}</h3>
-
-
-                                <div className="mt-2">
-                                    <p className="font-semibold text-md">Price: {service.price} €</p>
-                                    <p className="mt-1 text-gray-700 text-sm">Description: {service.description}</p>
-                                </div>
+                                <Link
+                                    to={`/booking/${service.id}`}
+                                    state={{ service }}
+                                    className="fancy-button mt-4 text-center"
+                                >
+                                    Book this service
+                                </Link>
                             </div>
+                        ))}
+                    </div>
 
-                            <Link
-                                to={`/booking/${service.id}`}
-                                state={{ service }}
-                                className="mt-4 bg-sky-400 hover:bg-sky-500 text-white py-2 px-4 rounded text-center w-full lg:w-auto"
+                    {/* Пагинация */}
+                    <div className="pagination-container">
+                        <button
+                            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                            disabled={currentPage === 1}
+                            className={`pagination-button prev ${
+                                currentPage === 1 ? 'disabled' : ''
+                            }`}
+                        >
+                            &lt;
+                        </button>
+                        {[...Array(totalPages)].map((_, index) => (
+                            <button
+                                key={index}
+                                onClick={() => setCurrentPage(index + 1)}
+                                className={`pagination-button page-number ${
+                                    currentPage === index + 1 ? 'active' : ''
+                                }`}
                             >
-                                Book this service
-                            </Link>
-                        </div>
-                    ))}
+                                {index + 1}
+                            </button>
+                        ))}
+                        <button
+                            onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+                            disabled={currentPage === totalPages}
+                            className={`pagination-button next ${
+                                currentPage === totalPages ? 'disabled' : ''
+                            }`}
+                        >
+                            &gt;
+                        </button>
+                    </div>
                 </div>
             )}
         </div>
     );
 };
 
+
 export default ServicesByCategory;
+
 
 
 

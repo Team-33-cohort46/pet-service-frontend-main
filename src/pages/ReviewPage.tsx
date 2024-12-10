@@ -15,21 +15,21 @@ const ReviewPage: React.FC = () => {
 
         // Если пользователь не авторизован
         if (!isLoggedIn) {
-            setError('Вы должны войти в систему, чтобы оставить отзыв.');
+            setError('You must be logged in to leave a review.');
             return;
         }
 
         // Проверка данных
         if (!email) {
-            setError('Введите email пользователя.');
+            setError('enter user email.');
             return;
         }
         if (!message.trim()) {
-            setError('Сообщение отзыва не может быть пустым.');
+            setError('The review cannot be empty');
             return;
         }
         if (stars < 1 || stars > 5) {
-            setError('Рейтинг должен быть от 1 до 5.');
+            setError('Rating must be from 1 to 5');
             return;
         }
 
@@ -50,18 +50,18 @@ const ReviewPage: React.FC = () => {
             );
 
             // Если успешный запрос
-            setSuccess('Ваш отзыв успешно отправлен!');
+            setSuccess('Your review has been successfully sent.!');
             setMessage('');
             setStars(5);
             setEmail('');
         } catch (err: any) {
-            setError(err.response?.data?.message || 'Произошла ошибка при отправке отзыва.');
+            setError(err.response?.data?.message || 'There was an error sending your review.');
         }
     };
 
     return (
         <div className="max-w-4xl mx-auto mt-10">
-            <h1 className="text-2xl font-bold mb-4">Оставить отзыв</h1>
+            <h1 className="text-2xl font-bold mb-4">Leave review</h1>
 
             {/* Если ошибка */}
             {error && <div className="text-red-500 mb-4">{error}</div>}
@@ -73,7 +73,7 @@ const ReviewPage: React.FC = () => {
                 {/* Поле для ввода email */}
                 <div className="mb-4">
                     <label htmlFor="email" className="block text-sm font-medium mb-1">
-                        Email пользователя:
+                        User email:
                     </label>
                     <input
                         type="email"
@@ -81,14 +81,14 @@ const ReviewPage: React.FC = () => {
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         className="w-full border border-gray-300 p-4 rounded-md"
-                        placeholder="Введите email пользователя..."
+                        placeholder="Enter user email..."
                     />
                 </div>
 
                 {/* Поле для ввода сообщения */}
                 <div className="mb-4">
                     <label htmlFor="message" className="block text-sm font-medium mb-1">
-                        Ваш отзыв:
+                        Your review:
                     </label>
                     <textarea
                         id="message"
@@ -96,14 +96,14 @@ const ReviewPage: React.FC = () => {
                         onChange={(e) => setMessage(e.target.value)}
                         className="w-full border border-gray-300 p-4 rounded-md"
                         rows={5}
-                        placeholder="Введите ваш отзыв здесь..."
+                        placeholder="Enter your review here..."
                     ></textarea>
                 </div>
 
                 {/* Поле для ввода рейтинга */}
                 <div className="mb-4">
                     <label htmlFor="stars" className="block text-sm font-medium mb-1">
-                        Рейтинг (1-5):
+                        Rating (1-5):
                     </label>
                     <input
                         type="number"
@@ -118,9 +118,9 @@ const ReviewPage: React.FC = () => {
 
                 <button
                     type="submit"
-                    className="bg-theme-blue text-white px-6 py-2 mt-4 rounded-md hover:bg-theme-blue-light"
+                    className="fancy-button text-white px-6 py-2 mt-4 rounded-md "
                 >
-                    Отправить
+                    Send
                 </button>
             </form>
         </div>
