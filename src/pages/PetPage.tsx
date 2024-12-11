@@ -146,7 +146,7 @@ const PetPage: React.FC = () => {
               {pet.photo ? (
                 <img src={pet.photo} alt={pet.name} className="mt-2 mb-10 w-32 h-32 object-cover rounded" />
               ) : (
-                <p className="italic">No photo available</p>
+                <p className="italic"></p>
               )}
             </div>
 
