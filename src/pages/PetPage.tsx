@@ -144,16 +144,16 @@ const PetPage: React.FC = () => {
             {/* Правая часть карточки (фото и кнопка удаления) */}
             <div className="flex items-start justify-end ml-4">
               {pet.photo ? (
-                <img src={pet.photo} alt={pet.name} className="mt-2 w-32 h-32 object-cover rounded" />
+                <img src={pet.photo} alt={pet.name} className="mt-2 mb-10 w-32 h-32 object-cover rounded" />
               ) : (
                 <p className="italic">No photo available</p>
               )}
             </div>
 
-            {/* Кнопка удаления в левом нижнем углу */}
+            {/* Кнопка удаления в нижнем углу */}
             <button
               onClick={() => handleDeletePet(pet.id)}
-              className="absolute bottom-2 left-2 bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-3 rounded"
+              className="absolute bottom-2 right-2 bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-3 rounded"
             >
               Delete Pet
             </button>
