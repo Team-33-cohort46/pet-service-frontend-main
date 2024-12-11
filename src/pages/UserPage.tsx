@@ -9,13 +9,15 @@ import halfstar from '../asets/images/half-star.png';
 import TempUserBookings from './TempUserBookings';
 import UserReviewsPage from './UserReviewsPage';
 import PetPage from './PetPage';
+import MySittingRequests from './MySittingRequests';
+import MyPetBookings from './MyPetBookings';
 
 const UserPage: React.FC = () => {
   const [user, setUser] = useState<any>(null);
   const [editableUser, setEditableUser] = useState<any>(null);
   const [error, setError] = useState("");
   const [isEditing, setIsEditing] = useState(false);
-  const [selectedSection, setSelectedSection] = useState<'services' | 'pets' | 'bookings' | 'logout' | 'personal' | 'reviews'>('personal'); // Состояние для выбранной секции
+  const [selectedSection, setSelectedSection] = useState<'services' | 'pets' | 'bookingsAsSitter' | 'bookingsAsOwner' | 'logout' | 'personal' | 'reviews'>('personal'); // Состояние для выбранной секции
   const navigate = useNavigate();
   const { setIsLoggedIn, setIsLoggedOut } = useContext(AuthContext);
 
@@ -259,33 +261,6 @@ const UserPage: React.FC = () => {
           <img src={user.photo || DEFAULT_PHOTO} alt="" className="w-32 h-32 object-cover rounded-full mx-auto" />
         </div>
         <h2 className="text-2xl font-bold mb-6 text-center">{user.firstName} {user.lastName}</h2>
-
-              {/*<div className="flex space-x-2 mt-4">
-                <button
-                  onClick={() => setIsEditing(true)}
-                  className="w-full bg-sky-400 hover:bg-sky-500 text-white py-2 px-4 rounded"
-                >
-                  Edit
-                </button>
-                
-              </div>
-              <div className="flex space-x-2 mt-2">
-                <button
-                  onClick={() => navigate('/user-reviews')}
-                  className="w-full bg-sky-400 hover:bg-sky-500 text-white py-2 px-4 rounded"
-                >
-                  View Reviews
-                </button>
-                
-                <button
-                  onClick={handleDelete}
-                  className="w-full bg-red-800 hover:bg-red-900 text-white py-2 px-4 rounded"
-                >
-                  Delete Account
-                </button> 
-               
-              </div>*/}
-
               {/* Кнопки для переключения секций*/}
               <div className="mt-6">
 
@@ -312,10 +287,17 @@ const UserPage: React.FC = () => {
                 </button>
 
                 <button
-                  onClick={() => setSelectedSection('bookings')}
-                  className={`w-full mb-2 profile-button ${selectedSection === 'bookings' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700'}`}
+                  onClick={() => setSelectedSection('bookingsAsOwner')}
+                  className={`w-full mb-2 profile-button ${selectedSection === 'bookingsAsOwner' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700'}`}
                 >
-                  My Bookings
+                  My Pet Bookings
+                </button>
+
+                <button
+                  onClick={() => setSelectedSection('bookingsAsSitter')}
+                  className={`w-full mb-2 profile-button ${selectedSection === 'bookingsAsSitter' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700'}`}
+                >
+                  My Sitting Requests
                 </button>
 
                 <button
@@ -453,10 +435,15 @@ const UserPage: React.FC = () => {
             </div>
           )}
           
-          {selectedSection === 'bookings' && (
+          {selectedSection === 'bookingsAsSitter' && (
             <div>
-              <h3 className="text-2xl font-bold mb-4">My Bookings</h3>
-              <TempUserBookings />
+              <MySittingRequests />
+            </div>
+          )}
+
+          {selectedSection === 'bookingsAsOwner' && (
+            <div>
+              <MyPetBookings />
             </div>
           )}
 
