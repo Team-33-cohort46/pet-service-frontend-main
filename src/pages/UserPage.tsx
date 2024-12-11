@@ -1,6 +1,3 @@
-
-
-// UserPage.tsx
 import React, { useEffect, useState, useContext, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../App';
@@ -11,6 +8,7 @@ import emptyStar from '../asets/images/empty-star.png';
 import halfstar from '../asets/images/half-star.png';
 import TempUserBookings from './TempUserBookings';
 import UserReviewsPage from './UserReviewsPage';
+import PetPage from './PetPage';
 
 const UserPage: React.FC = () => {
   const [user, setUser] = useState<any>(null);
@@ -200,58 +198,6 @@ const UserPage: React.FC = () => {
     }
   };
 
-  // Состояние и функция для добавления питомца
-  const [newPet, setNewPet] = useState({ name: "", type: "", photo: "" });
-
-  const handleAddPet = async () => {
-    const token = localStorage.getItem("authToken");
-    if (!token) return;
-
-    try {
-      const response = await fetch("api/pets", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(newPet),
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to add pet");
-      }
-
-      const pet = await response.json();
-      setUser((prev: any) => ({ ...prev, pets: [...(prev.pets || []), pet] }));
-      setNewPet({ name: "", type: "", photo: "" });
-    } catch (err) {
-      console.error("Error adding pet:", err);
-    }
-  };
-
-  // Функция для получения питомцев
-  const fetchPets = async () => {
-    const token = localStorage.getItem("authToken");
-    if (!token) return;
-
-    try {
-      const response = await fetch("api/pets/me", {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to fetch pets");
-      }
-
-      const pets = await response.json();
-      setUser((prev: any) => ({ ...prev, pets }));
-    } catch (err) {
-      console.error("Error fetching pets:", err);
-    }
-  };
 
   // Функция для удаления аккаунта
   const handleDelete = async () => {
@@ -290,7 +236,7 @@ const UserPage: React.FC = () => {
   // Инициализация данных пользователя и питомцев
   useEffect(() => {
     fetchUserData();
-    fetchPets();
+   // fetchPets();
   }, [fetchUserData]);
 
   // Отображение ошибки, если она есть
@@ -305,23 +251,8 @@ const UserPage: React.FC = () => {
 
   return (
     <div className="p-4">
-       {/* Верхняя частиь: Информация о пользователе
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full p-8 border rounded mb-4">
-        <h2 className="text-2xl font-bold mb-6 text-center">Welcome {user.firstName}</h2>*/}
-        {/* Отображение информации о пользователе 
-        <div className="mb-4">
-          <img src={user.photo || DEFAULT_PHOTO} alt="" className="w-32 h-32 object-cover rounded-full mx-auto" />
-        </div>
-        <div>
-        <p><strong>Name:</strong> {user.firstName}</p>
-        <p><strong>Last name:</strong> {user.lastName}</p>
-        <p><strong>Email:</strong> {user.email}</p>
-        <p><strong>Description:</strong> {user.description}</p>
-        <p className="flex space-x-2"><strong>Rating:</strong> {renderStars(user.averageStars)}</p>
-        </div>
-      </div>*/}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        {/* Левая колонка: кнопки */}
+        {/* Левая колонка: Информация о пользователе, кнопки */}
         <div className="w-full p-8 border rounded">
           
         <div className="mb-4">
@@ -517,68 +448,8 @@ const UserPage: React.FC = () => {
           {selectedSection === 'pets' && (
             <div>
               <h3 className="text-2xl font-bold mb-4">My Pets</h3>
-              <ul className="mt-2">
-                {user.pets?.map((pet: any) => (
-                  <li key={pet.id} className="p-2 mb-2 border rounded">
-                    <p><strong>Name:</strong> {pet.name}</p>
-                    <p><strong>Type:</strong> {pet.type}</p>
-                  </li>
-                ))}
-              </ul>
-
-              {/* Форма добавления питомца */}
-              <div className="mt-6">
-                <details>
-                  <summary className="flex select-none text-center">
-                    <span className="w-full bg-sky-400 hover:bg-sky-500 hover:text-white text-white py-2 px-2 rounded cursor-pointer">
-                      Add a New Pet
-                    </span>
-                  </summary>
-                  <div className="mt-4">
-                    <div className="mb-4">
-                      <label className="font-semibold">Name</label>
-                      <input
-                        type="text"
-                        name="name"
-                        value={newPet.name}
-                        onChange={(e) => setNewPet({ ...newPet, name: e.target.value })}
-                        className="w-full border border-gray-300 rounded px-3 py-2"
-                      />
-                    </div>
-                    <div className="mb-4">
-                      <label className="block font-semibold">Type</label>
-                      <select
-                        name="type"
-                        value={newPet.type}
-                        onChange={(e) => setNewPet({ ...newPet, type: e.target.value })}
-                        className="w-full border border-gray-300 rounded px-3 py-2"
-                      >
-                        <option value="" disabled>Select Type</option>
-                        <option value="cat">Cat</option>
-                        <option value="dog">Dog</option>
-                        <option value="bird">Bird</option>
-                        <option value="rodents">Rodent</option>
-                      </select>
-                    </div>
-                    <div className="mb-4">
-                      <label className="font-semibold">Photo</label>
-                      <input
-                        type="text"
-                        name="photo"
-                        value={newPet.photo}
-                        onChange={(e) => setNewPet({ ...newPet, photo: e.target.value })}
-                        className="w-full border border-gray-300 rounded px-3 py-2"
-                      />
-                    </div>
-                    <button
-                      onClick={handleAddPet}
-                      className="mt-6 w-full bg-sky-400 hover:bg-sky-500 text-white font-bold py-2 px-4 rounded"
-                    >
-                      Add Pet
-                    </button>
-                  </div>
-                </details>
-              </div>
+              <PetPage />
+              
             </div>
           )}
           
@@ -600,5 +471,4 @@ const UserPage: React.FC = () => {
     </div>
   );
 };
-
 export default UserPage;
