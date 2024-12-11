@@ -182,13 +182,13 @@ const UserProfilePage: React.FC = () => {
                 </div>
                 <button
                   onClick={() => saveService(service)}
-                  className="bg-green-600 hover:bg-green-700  text-white px-4 py-2 rounded mr-2"
+                  className="green-button"
                 >
                   Save
                 </button>
                 <button
                   onClick={() => setEditingServiceId(null)}
-                  className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded"
+                  className="red-button"
                 >
                   Cancel
                 </button>
@@ -207,7 +207,7 @@ const UserProfilePage: React.FC = () => {
                 </p> */}
                 <button
                   onClick={() => startEditing(service.id)}
-                  className="bg-sky-400 hover:bg-sky-500 hover:text-white text-white px-2 py-1 rounded"
+                  className="profile-button"
                 >
                   Edit
                 </button>
@@ -223,7 +223,7 @@ const UserProfilePage: React.FC = () => {
       <div className="mt-6">
       <details>
             <summary className=" flex  select-none text-center ">
-              <span className="   mt-6 w-full bg-sky-400 hover:bg-sky-500 hover:text-white text-white  py-2 px-2 rounded" >Add a New Service</span>
+              <span className="mt-6 w-full green-button" >Add a New Service</span>
               </summary>
         <div className="mb-4 mt-4">
           <label className="font-semibold">Title</label>
@@ -279,7 +279,7 @@ const UserProfilePage: React.FC = () => {
         </div>
         <button
           onClick={addService}
-          className="w-full bg-sky-400 hover:bg-sky-500 text-white  py-2 px-4 rounded"
+          className="w-full green-button"
         >
           Add Service
         </button>

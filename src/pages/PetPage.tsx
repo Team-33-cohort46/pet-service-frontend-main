@@ -153,7 +153,7 @@ const PetPage: React.FC = () => {
             {/* Кнопка удаления в нижнем углу */}
             <button
               onClick={() => handleDeletePet(pet.id)}
-              className="absolute bottom-2 right-2 bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-3 rounded"
+              className="red-button"
             >
               Delete Pet
             </button>
@@ -166,7 +166,7 @@ const PetPage: React.FC = () => {
         {!isEditing ? (
           <details>
             <summary className="flex select-none text-center">
-              <span className="w-full bg-sky-400 hover:bg-sky-500 hover:text-white text-white py-2 px-2 rounded cursor-pointer"
+              <span className="w-full green-button"
                 onClick={() => setIsEditing(true)}>
                 Add a New Pet
               </span>
@@ -215,7 +215,7 @@ const PetPage: React.FC = () => {
               />
               <button
                 onClick={() => document.getElementById('fileInput')?.click()}
-                className="mt-2 w-full bg-sky-400 hover:bg-sky-500 text-white font-bold py-2 px-4 rounded"
+                className="mt-2 w-full profile-button"
               >
                 Select and Upload Photo
               </button>
@@ -236,13 +236,13 @@ const PetPage: React.FC = () => {
             <div className="flex justify-between">
               <button
                 onClick={handleCancel}
-                className="w-1/2 bg-gray-300 hover:bg-gray-400 text-white font-bold py-2 px-4 rounded"
+                className="w-1/2 mr-1 red-button"
               >
                 Cancel
               </button>
               <button
                 onClick={handleAddPet}
-                className="w-1/2 bg-sky-400 hover:bg-sky-500 text-white font-bold py-2 px-4 rounded"
+                className="w-1/2 green-button"
               >
                 Save
               </button>

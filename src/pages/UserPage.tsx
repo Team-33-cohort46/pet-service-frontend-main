@@ -291,7 +291,7 @@ const UserPage: React.FC = () => {
 
               <button
                   onClick={() => setSelectedSection('personal')}
-                  className={`w-full text-left py-2 px-4 rounded ${selectedSection === 'personal' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700'}`}
+                  className={`w-full mb-2 profile-button ${selectedSection === 'personal' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700'}`}
                 >
                   My Personal Data 
 
@@ -299,35 +299,35 @@ const UserPage: React.FC = () => {
 
                 <button
                   onClick={() => setSelectedSection('services')}
-                  className={`w-full text-left mt-2 py-2 px-4 rounded ${selectedSection === 'services' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700'}`}
+                  className={`w-full mb-2 profile-button ${selectedSection === 'services' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700'}`}
                 >
                   My Services
                 </button>
 
                 <button
                   onClick={() => setSelectedSection('pets')}
-                  className={`w-full text-left mt-2 py-2 px-4 rounded ${selectedSection === 'pets' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700'}`}
+                  className={`w-full mb-2 profile-button ${selectedSection === 'pets' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700'}`}
                 >
                   My Pets
                 </button>
 
                 <button
                   onClick={() => setSelectedSection('bookings')}
-                  className={`w-full text-left mt-2 py-2 px-4 rounded ${selectedSection === 'bookings' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700'}`}
+                  className={`w-full mb-2 profile-button ${selectedSection === 'bookings' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700'}`}
                 >
                   My Bookings
                 </button>
 
                 <button
                   onClick={() => setSelectedSection('reviews')}
-                  className={`w-full text-left mt-2 py-2 px-4 rounded ${selectedSection === 'reviews' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700'}`}
+                  className={`w-full mb-2 profile-button ${selectedSection === 'reviews' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700'}`}
                 >
                   View Reviews
                 </button>
 
                 <button
                   onClick={handleLogout}
-                  className={`w-full text-left mt-2 py-2 px-4 rounded ${selectedSection === 'logout' ? 'bg-blue-500  text-white' : 'bg-gray-200 text-gray-700  hover:bg-red-700'}`}
+                  className={`w-full red-button ${selectedSection === 'logout' ? 'bg-blue-500  text-white' : 'bg-gray-200 text-gray-700  hover:bg-red-700'}`}
                 >
                   Logout
                 </button>
@@ -353,7 +353,7 @@ const UserPage: React.FC = () => {
                 <button
                   type="button"
                   onClick={handlePhotoUpload}
-                  className="mt-2 bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded"
+                  className="profile-button"
                 >
                   Upload Photo
                 </button>
@@ -390,13 +390,13 @@ const UserPage: React.FC = () => {
               <div className="flex space-x-2">
                 <button
                   onClick={handleSave}
-                  className="mt-2 w-1/2 bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded"
+                  className="mt-2 w-1/2 green-button"
                 >
                   Save
                 </button>
                 <button
                   onClick={() => setIsEditing(false)}
-                  className="mt-2 w-1/2 bg-gray-600 hover:bg-gray-700 text-white py-2 px-4 rounded"
+                  className="mt-2 w-1/2 red-button"
                 >
                   Cancel
                 </button>
@@ -418,7 +418,7 @@ const UserPage: React.FC = () => {
               <div className="flex space-x-2 mt-4">
                 <button
                   onClick={() => setIsEditing(true)}
-                  className="w-full bg-sky-400 hover:bg-sky-500 text-white py-2 px-4 rounded"
+                  className="w-full profile-button"
                 >
                   Edit
                 </button>
@@ -428,7 +428,7 @@ const UserPage: React.FC = () => {
             
                 <button
                   onClick={handleDelete}
-                  className="w-full bg-red-800 hover:bg-red-900 text-white py-2 px-4 rounded"
+                  className="w-full red-button"
                 >
                   Delete Account
                 </button>
