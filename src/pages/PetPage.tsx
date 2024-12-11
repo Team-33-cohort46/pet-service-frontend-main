@@ -10,7 +10,6 @@ interface Pet {
 const PetPage: React.FC = () => {
   const [newPet, setNewPet] = useState({ name: "", type: "", photo: "" });
   const [pets, setPets] = useState<Pet[]>([]);
-  const [photoFile, setPhotoFile] = useState<File | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [isEditing, setIsEditing] = useState(false);
 

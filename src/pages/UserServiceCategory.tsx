@@ -84,6 +84,33 @@ const UserProfilePage: React.FC = () => {
     }
   };
 
+  // Удаление услуги
+  const deleteService = async (id: string) => {
+    try {
+      const token = localStorage.getItem("authToken");
+      if (!token) {
+        setError("User is not authenticated.");
+        return;
+      }
+
+      const response = await fetch(`/api/services/${id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to delete service");
+      }
+
+      setServices((prevServices) => prevServices.filter((service) => service.id !== id));
+    } catch (err: any) {
+      console.error("Error deleting service:", err);
+      setError(err.message || "An unexpected error occurred.");
+    }
+  };
+
   // Сохранение изменений услуги
   const saveService = async (updatedService: Service) => {
     try {
@@ -202,15 +229,20 @@ const UserProfilePage: React.FC = () => {
                 <p>
                   <strong>Description:</strong> {service.description}
                 </p>
-                {/* <p>
-                  <strong>Category:</strong> {service.serviceCategory}
-                </p> */}
-                <button
-                  onClick={() => startEditing(service.id)}
-                  className="profile-button"
-                >
-                  Edit
-                </button>
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => startEditing(service.id)}
+                    className="profile-button"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => deleteService(service.id)}
+                    className="red-button"
+                  >
+                    Delete
+                  </button>
+                </div>
               </li>
             )
           )}
@@ -221,72 +253,68 @@ const UserProfilePage: React.FC = () => {
 
       {/* Форма добавления новой услуги */}
       <div className="mt-6">
-      <details>
-            <summary className=" flex  select-none text-center ">
-              <span className="mt-6 w-full green-button" >Add a New Service</span>
-              </summary>
-        <div className="mb-4 mt-4">
-          <label className="font-semibold">Title</label>
-          <input
-            type="text"
-            value={newService.title}
-            onChange={(e) => setNewService({ ...newService, title: e.target.value })}
-            className="w-full border rounded px-2 py-1"
-            placeholder="Dog sitter"
-          />
-        </div>
-        <div className="mb-4">
-          <label className="font-semibold">Price €</label>
-          <input
-            type="text"
-            value={newService.price}
-            onChange={(e) => setNewService({ ...newService, price: e.target.value })}
-            className="w-full border rounded px-2 py-1"
-            placeholder="15"
-          />
-        </div>
-        <div className="mb-4">
-          <label className="font-semibold">Description</label>
-          <textarea
-            value={newService.description}
-            onChange={(e) =>
-              setNewService({ ...newService, description: e.target.value })
-            }
-            maxLength={500} // Ограничение на 500 символов
-            rows={10}
-            className="w-full border rounded px-2 py-1"
-            placeholder="About your service (max 500 characters)"
-          />
-        </div>
-        <div className="mb-4">
-
-
-        <label className="font-semibold">Category</label>
-        <select
-                    name="type"
-                    value={newService.serviceCategory}
-            onChange={(e) =>
-              setNewService({ ...newService, serviceCategory: e.target.value })
-            }
-                    className="w-full border border-gray-300 rounded px-3 py-2"
-                  >
-                    <option value="" disabled>Select Category</option>
-                    <option value="1">Cat</option>
-                    <option value="2">Dog</option>
-                    <option value="3">Bird</option>
-                    <option value="4">Rodent</option>
-                  </select>
-        </div>
-        <button
-          onClick={addService}
-          className="w-full green-button"
-        >
-          Add Service
-        </button>
+        <details>
+          <summary className="flex select-none text-center">
+            <span className="mt-6 w-full green-button">Add a New Service</span>
+          </summary>
+          <div className="mb-4 mt-4">
+            <label className="font-semibold">Title</label>
+            <input
+              type="text"
+              value={newService.title}
+              onChange={(e) => setNewService({ ...newService, title: e.target.value })}
+              className="w-full border rounded px-2 py-1"
+              placeholder="Dog sitter"
+            />
+          </div>
+          <div className="mb-4">
+            <label className="font-semibold">Price €</label>
+            <input
+              type="text"
+              value={newService.price}
+              onChange={(e) => setNewService({ ...newService, price: e.target.value })}
+              className="w-full border rounded px-2 py-1"
+              placeholder="15"
+            />
+          </div>
+          <div className="mb-4">
+            <label className="font-semibold">Description</label>
+            <textarea
+              value={newService.description}
+              onChange={(e) =>
+                setNewService({ ...newService, description: e.target.value })
+              }
+              maxLength={500} // Ограничение на 500 символов
+              rows={10}
+              className="w-full border rounded px-2 py-1"
+              placeholder="About your service (max 500 characters)"
+            />
+          </div>
+          <div className="mb-4">
+            <label className="font-semibold">Category</label>
+            <select
+              name="type"
+              value={newService.serviceCategory}
+              onChange={(e) =>
+                setNewService({ ...newService, serviceCategory: e.target.value })
+              }
+              className="w-full border border-gray-300 rounded px-3 py-2"
+            >
+              <option value="" disabled>Select Category</option>
+              <option value="1">Cat</option>
+              <option value="2">Dog</option>
+              <option value="3">Bird</option>
+              <option value="4">Rodent</option>
+            </select>
+          </div>
+          <button
+            onClick={addService}
+            className="w-full green-button"
+          >
+            Add Service
+          </button>
         </details>
       </div>
-
-      
     </div>
   );
 };
