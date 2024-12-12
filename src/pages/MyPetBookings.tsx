@@ -124,7 +124,7 @@ const MyPetBookings: React.FC = () => {
               {/* Условие для отображения кнопки отзыва */}
               {isReviewAvailable(booking.endDate) && booking.status !== 'cancelled' && (
                 <button
-                  className="mt-2 p-2 bg-green-500 text-white rounded"
+                  className="mt-2 p-2 green-button"
                   onClick={() => alert('Leave a review')}
                 >
                   Leave a Review
