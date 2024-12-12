@@ -171,7 +171,7 @@ button:hover {
   border: none;
   color: #ffffff;
   font-weight: 400;
-  background-image: linear-gradient(30deg, #a4c8cd, #90ccd5);
+  background-image: linear-gradient(30deg, #cadce1, #6eceda);
   border-radius: 10px;
   background-size: 100% auto;
   font-family: inherit;
@@ -189,7 +189,7 @@ button:hover {
   border: none;
   color: #ffffff;
   font-weight: 400;
-  background-image: linear-gradient(30deg, #b30000, #b86060);
+  background-image: linear-gradient(30deg, #a56262, #aa1313);
   border-radius: 10px;
   background-size: 100% auto;
   font-family: inherit;
