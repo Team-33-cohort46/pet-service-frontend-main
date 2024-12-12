@@ -152,7 +152,7 @@ const PetPage: React.FC = () => {
             {/* Кнопка удаления в нижнем углу */}
             <button
               onClick={() => handleDeletePet(pet.id)}
-              className="red-button"
+              className="ml-4 red-button"
             >
               Delete Pet
             </button>
