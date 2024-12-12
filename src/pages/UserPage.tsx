@@ -11,13 +11,15 @@ import UserReviewsPage from './UserReviewsPage';
 import PetPage from './PetPage';
 import MySittingRequests from './MySittingRequests';
 import MyPetBookings from './MyPetBookings';
+import AdminApp from './admin/AdminApp';
+import Dashboard from './admin/Dashboard';
 
 const UserPage: React.FC = () => {
   const [user, setUser] = useState<any>(null);
   const [editableUser, setEditableUser] = useState<any>(null);
   const [error, setError] = useState("");
   const [isEditing, setIsEditing] = useState(false);
-  const [selectedSection, setSelectedSection] = useState<'services' | 'pets' | 'bookingsAsSitter' | 'bookingsAsOwner' | 'logout' | 'personal' | 'reviews'>('personal'); // Состояние для выбранной секции
+  const [selectedSection, setSelectedSection] = useState<'services' | 'pets' | 'bookingsAsSitter' | 'bookingsAsOwner' | 'logout' | 'personal' | 'adminSection' | 'reviews'>('personal'); // Состояние для выбранной секции
   const navigate = useNavigate();
   const { setIsLoggedIn, setIsLoggedOut } = useContext(AuthContext);
 
@@ -25,9 +27,9 @@ const UserPage: React.FC = () => {
 
   // Функция для отображения рейтинга в виде звезд
   const renderStars = (rating: number) => {
-    const filledStars = Math.floor(rating); 
-    const halfStar = rating % 1 >= 0.5; 
-    const emptyStars = 5 - filledStars - (halfStar ? 1 : 0); 
+    const filledStars = Math.floor(rating);
+    const halfStar = rating % 1 >= 0.5;
+    const emptyStars = 5 - filledStars - (halfStar ? 1 : 0);
 
     return (
       <div className='flex'>
@@ -57,7 +59,7 @@ const UserPage: React.FC = () => {
       </div>
     );
   };
-  
+
   // Проверка истечения срока действия токена
   const isTokenExpired = (token: string): boolean => {
     try {
@@ -132,7 +134,7 @@ const UserPage: React.FC = () => {
       navigate('/login');
       return;
     }
-  
+
     try {
       const response = await fetch("/api/auth/me", {
         method: 'PUT',
@@ -142,11 +144,11 @@ const UserPage: React.FC = () => {
         },
         body: JSON.stringify(editableUser),
       });
-  
+
       if (!response.ok) {
         throw new Error(`Failed to update user data: ${response.status}`);
       }
-  
+
       const updatedUser = await response.json();
       setUser(updatedUser);
       setIsEditing(false);
@@ -207,7 +209,7 @@ const UserPage: React.FC = () => {
     if (!token) return;
 
     const confirmDelete = window.confirm(
-        "Are you sure you want to delete your account?"
+      "Are you sure you want to delete your account?"
     );
 
     if (!confirmDelete) return;
@@ -238,7 +240,7 @@ const UserPage: React.FC = () => {
   // Инициализация данных пользователя и питомцев
   useEffect(() => {
     fetchUserData();
-   // fetchPets();
+    // fetchPets();
   }, [fetchUserData]);
 
   // Отображение ошибки, если она есть
@@ -256,167 +258,176 @@ const UserPage: React.FC = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {/* Левая колонка: Информация о пользователе, кнопки */}
         <div className="w-full p-8 border rounded">
-          
-        <div className="mb-4">
-          <img src={user.photo || DEFAULT_PHOTO} alt="" className="w-32 h-32 object-cover rounded-full mx-auto" />
-        </div>
-        <h2 className="text-2xl font-bold mb-6 text-center">{user.firstName} {user.lastName}</h2>
-              {/* Кнопки для переключения секций*/}
-              <div className="mt-6">
 
+          <div className="mb-4">
+            <img src={user.photo || DEFAULT_PHOTO} alt="" className="w-32 h-32 object-cover rounded-full mx-auto" />
+          </div>
+          <h2 className="text-2xl font-bold mb-6 text-center">{user.firstName} {user.lastName}</h2>
+          {/* Кнопки для переключения секций*/}
+          <div className="mt-6">
+
+            <button
+              onClick={() => setSelectedSection('personal')}
+              className={`w-full mb-2 profile-button ${selectedSection === 'personal' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700'}`}
+            >
+              My Personal Data
+
+            </button>
+
+            {user.email === 'admin@admin.com' && (
               <button
-                  onClick={() => setSelectedSection('personal')}
-                  className={`w-full mb-2 profile-button ${selectedSection === 'personal' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700'}`}
-                >
-                  My Personal Data 
+                onClick={() => setSelectedSection('adminSection')}
+                className={`w-full mb-2 profile-button ${selectedSection === 'adminSection' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700'}`}
+              >
+                Admin Section
+              </button>
+            )}
 
-                </button>
+            <button
+              onClick={() => setSelectedSection('services')}
+              className={`w-full mb-2 profile-button ${selectedSection === 'services' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700'}`}
+            >
+              My Services
+            </button>
 
-                <button
-                  onClick={() => setSelectedSection('services')}
-                  className={`w-full mb-2 profile-button ${selectedSection === 'services' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700'}`}
-                >
-                  My Services
-                </button>
+            <button
+              onClick={() => setSelectedSection('pets')}
+              className={`w-full mb-2 profile-button ${selectedSection === 'pets' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700'}`}
+            >
+              My Pets
+            </button>
 
-                <button
-                  onClick={() => setSelectedSection('pets')}
-                  className={`w-full mb-2 profile-button ${selectedSection === 'pets' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700'}`}
-                >
-                  My Pets
-                </button>
+            <button
+              onClick={() => setSelectedSection('bookingsAsOwner')}
+              className={`w-full mb-2 profile-button ${selectedSection === 'bookingsAsOwner' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700'}`}
+            >
+              My Pet Bookings
+            </button>
 
-                <button
-                  onClick={() => setSelectedSection('bookingsAsOwner')}
-                  className={`w-full mb-2 profile-button ${selectedSection === 'bookingsAsOwner' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700'}`}
-                >
-                  My Pet Bookings
-                </button>
+            <button
+              onClick={() => setSelectedSection('bookingsAsSitter')}
+              className={`w-full mb-2 profile-button ${selectedSection === 'bookingsAsSitter' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700'}`}
+            >
+              My Sitting Requests
+            </button>
 
-                <button
-                  onClick={() => setSelectedSection('bookingsAsSitter')}
-                  className={`w-full mb-2 profile-button ${selectedSection === 'bookingsAsSitter' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700'}`}
-                >
-                  My Sitting Requests
-                </button>
+            <button
+              onClick={() => setSelectedSection('reviews')}
+              className={`w-full mb-2 profile-button ${selectedSection === 'reviews' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700'}`}
+            >
+              View Reviews
+            </button>
 
-                <button
-                  onClick={() => setSelectedSection('reviews')}
-                  className={`w-full mb-2 profile-button ${selectedSection === 'reviews' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700'}`}
-                >
-                  View Reviews
-                </button>
+            <button
+              onClick={handleLogout}
+              className={`w-full red-button ${selectedSection === 'logout' ? 'bg-blue-500  text-white' : 'bg-gray-200 text-gray-700  hover:bg-red-700'}`}
+            >
+              Logout
+            </button>
 
-                <button
-                  onClick={handleLogout}
-                  className={`w-full red-button ${selectedSection === 'logout' ? 'bg-blue-500  text-white' : 'bg-gray-200 text-gray-700  hover:bg-red-700'}`}
-                >
-                  Logout
-                </button>
-
-              </div>
+          </div>
 
         </div>
 
         {/* Правая колонка: Основной контент в зависимости от выбранной секции */}
         <div className="md:col-span-2 w-full p-8 border rounded">
-        {selectedSection === 'personal' && (
+          {selectedSection === 'personal' && (
             <div>
               {isEditing ? (
-            <>
-              {/* Форма редактирования профиля */}
-              <div className="mb-4">
-                <label className="block font-semibold">Photo:</label>
-                <input
-                  type="file"
-                  onChange={handleFileChange}
-                  className="w-full border border-gray-300 rounded px-3 py-2"
-                />
-                <button
-                  type="button"
-                  onClick={handlePhotoUpload}
-                  className="mt-2 profile-button"
-                >
-                  Upload Photo
-                </button>
-              </div>
-              <div className="mb-4">
-                <label className="block font-semibold">Name:</label>
-                <input
-                  type="text"
-                  name="firstName"
-                  value={editableUser.firstName}
-                  onChange={handleInputChange}
-                  className="w-full border border-gray-300 rounded px-3 py-2"
-                />
-              </div>
-              <div className="mb-4">
-                <label className="block font-semibold">Last name:</label>
-                <input
-                  type="text"
-                  name="lastName"
-                  value={editableUser.lastName}
-                  onChange={handleInputChange}
-                  className="w-full border border-gray-300 rounded px-3 py-2"
-                />
-              </div>
-              <div className="mb-4">
-                <label className="block font-semibold">Description:</label>
-                <textarea
-                  name="description"
-                  value={editableUser.description}
-                  onChange={handleInputChange}
-                  className="w-full border border-gray-300 rounded px-3 py-2"
-                />
-              </div>
-              <div className="flex space-x-2">
-                <button
-                  onClick={handleSave}
-                  className="mt-2 w-1/2 green-button"
-                >
-                  Save
-                </button>
-                <button
-                  onClick={() => setIsEditing(false)}
-                  className="mt-2 w-1/2 red-button"
-                >
-                  Cancel
-                </button>
-              </div>
-            </>
-          ) : (
-            <>
+                <>
+                  {/* Форма редактирования профиля */}
+                  <div className="mb-4">
+                    <label className="block font-semibold">Photo:</label>
+                    <input
+                      type="file"
+                      onChange={handleFileChange}
+                      className="w-full border border-gray-300 rounded px-3 py-2"
+                    />
+                    <button
+                      type="button"
+                      onClick={handlePhotoUpload}
+                      className="mt-2 profile-button"
+                    >
+                      Upload Photo
+                    </button>
+                  </div>
+                  <div className="mb-4">
+                    <label className="block font-semibold">Name:</label>
+                    <input
+                      type="text"
+                      name="firstName"
+                      value={editableUser.firstName}
+                      onChange={handleInputChange}
+                      className="w-full border border-gray-300 rounded px-3 py-2"
+                    />
+                  </div>
+                  <div className="mb-4">
+                    <label className="block font-semibold">Last name:</label>
+                    <input
+                      type="text"
+                      name="lastName"
+                      value={editableUser.lastName}
+                      onChange={handleInputChange}
+                      className="w-full border border-gray-300 rounded px-3 py-2"
+                    />
+                  </div>
+                  <div className="mb-4">
+                    <label className="block font-semibold">Description:</label>
+                    <textarea
+                      name="description"
+                      value={editableUser.description}
+                      onChange={handleInputChange}
+                      className="w-full border border-gray-300 rounded px-3 py-2"
+                    />
+                  </div>
+                  <div className="flex space-x-2">
+                    <button
+                      onClick={handleSave}
+                      className="mt-2 w-1/2 green-button"
+                    >
+                      Save
+                    </button>
+                    <button
+                      onClick={() => setIsEditing(false)}
+                      className="mt-2 w-1/2 red-button"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </>
+              ) : (
+                <>
 
-              <h3 className="text-2xl font-bold mb-4">My Personal Data</h3>
-              {/* Отображение информации о пользователе */}
-              {/*<div className="mb-4">
+                  <h3 className="text-2xl font-bold mb-4">My Personal Data</h3>
+                  {/* Отображение информации о пользователе */}
+                  {/*<div className="mb-4">
                 <img src={user.photo || DEFAULT_PHOTO} alt="" className="w-32 h-32 object-cover rounded-full mx-auto" />
               </div>*/}
-              <p><strong>Name:</strong> {user.firstName}</p>
-              <p><strong>Last name:</strong> {user.lastName}</p>
-              <p><strong>Email:</strong> {user.email}</p>
-              <p><strong>Description:</strong> {user.description}</p>
-              <p className="flex space-x-2"><strong>Rating:</strong> {renderStars(user.averageStars)}</p>
-              <div className="flex space-x-2 mt-4">
-                <button
-                  onClick={() => setIsEditing(true)}
-                  className="w-full profile-button"
-                >
-                  Edit
-                </button>
-                
-              </div>
-              <div className="flex space-x-2 mt-2">
-            
-                <button
-                  onClick={handleDelete}
-                  className="w-full red-button"
-                >
-                  Delete Account
-                </button>
-              </div>
-              </>
-          )}
+                  <p><strong>Name:</strong> {user.firstName}</p>
+                  <p><strong>Last name:</strong> {user.lastName}</p>
+                  <p><strong>Email:</strong> {user.email}</p>
+                  <p><strong>Description:</strong> {user.description}</p>
+                  <p className="flex space-x-2"><strong>Rating:</strong> {renderStars(user.averageStars)}</p>
+                  <div className="flex space-x-2 mt-4">
+                    <button
+                      onClick={() => setIsEditing(true)}
+                      className="w-full profile-button"
+                    >
+                      Edit
+                    </button>
+
+                  </div>
+                  <div className="flex space-x-2 mt-2">
+
+                    <button
+                      onClick={handleDelete}
+                      className="w-full red-button"
+                    >
+                      Delete Account
+                    </button>
+                  </div>
+                </>
+              )}
             </div>
           )}
 
@@ -431,10 +442,10 @@ const UserPage: React.FC = () => {
             <div>
               <h3 className="text-2xl font-bold mb-4">My Pets</h3>
               <PetPage />
-              
+
             </div>
           )}
-          
+
           {selectedSection === 'bookingsAsSitter' && (
             <div>
               <MySittingRequests />
@@ -450,6 +461,14 @@ const UserPage: React.FC = () => {
           {selectedSection === 'reviews' && (
             <div>
               <UserReviewsPage />
+            </div>
+          )}
+
+          {selectedSection === 'adminSection' && user.email === 'admin@admin.com' && (
+            <div>
+              <h3 className="text-2xl font-bold mb-4">Admin Section</h3>
+              <p>Welcome, Admin! This section is only visible to you.</p>
+              <Dashboard />
             </div>
           )}
 
