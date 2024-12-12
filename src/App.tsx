@@ -154,7 +154,7 @@ const App: React.FC = () => {
                       Profile
                     </Link>
 
-                <Link to="/review" className="fancy-button text-white rounded-md mt-6" >
+                <Link to="/review" className="fancy-button text-white rounded-md mt-10" >
                                         Leave review
                                     </Link>
                                     </>
