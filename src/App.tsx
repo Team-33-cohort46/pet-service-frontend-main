@@ -145,6 +145,7 @@ const App: React.FC = () => {
                     Contacts
                   </Link>
                   {isLoggedIn ? (
+                <>
                     <Link
                       to="/user"
                       className="block text-gray-700 hover:text-theme-blue px-3 py-2 rounded-md text-base font-medium"
@@ -152,6 +153,11 @@ const App: React.FC = () => {
                     >
                       Profile
                     </Link>
+
+                <Link to="/review" className="fancy-button text-white rounded-md" >
+                                        Leave review
+                                    </Link>
+                                    </>
                   ) : (
                     <>
                       <Link
