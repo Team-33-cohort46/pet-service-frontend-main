@@ -55,11 +55,10 @@ const Home: React.FC = () => {
                 <span className="text-white text-[14.4px]">2</span>
               </div>
               <h3 className="text-[11.52px] font-semibold mb-2">
-                Book Easily, Pay Securely
+                Book Easily
               </h3>
               <p className="text-gray-600 text-xs">
-                Check availability, schedule a meeting, and confirm your booking with a simple and
-                secure online payment system.
+                Check availability, schedule an appointment and confirm your reservation using our simple and secure online booking system.
               </p>
             </div>
             {/* Block 3 */}
