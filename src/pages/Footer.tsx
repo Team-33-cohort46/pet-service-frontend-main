@@ -1,5 +1,6 @@
 import React from 'react';
 import myImage from '../asets/logo.png'; 
+import { Link } from 'react-router-dom';
 
 const FooterPage: React.FC = () => {
   return (
@@ -12,27 +13,30 @@ const FooterPage: React.FC = () => {
           </a>
         </div>
 
-        
+        {/* Текстовое описание */}
         <p className="mx-auto mt-4 max-w-md text-center text-sm leading-relaxed text-gray-500">
           We provide the best pet sitting services to ensure your pets are happy and safe.
         </p>
 
-        
+        {/* Навигационные ссылки */}
         <ul className="mt-6 flex flex-wrap justify-center gap-4 md:gap-6">
           
           
           <li>
-            <a className="text-gray-700 hover:text-gray-900 text-sm" href="/categories">
-              Categories
-            </a>
+          <Link to="/categories" className="text-gray-700 hover:text-gray-900 text-sm">
+                      Categories
+                    </Link>
           </li>
           <li>
-            <a className="text-gray-700 hover:text-gray-900 text-sm" href="/contacts">
-              Contact
-            </a>
+          <Link to="/contacts" className="text-gray-700 hover:text-gray-900 text-sm">
+                      Contacts
+                    </Link>
           </li>
         </ul>
+
+        {/* Социальные сети */}
         <ul className="mt-6 flex justify-center gap-6">
+          {/* Facebook */}
           <li>
             <a
               href="https://facebook.com"
@@ -50,6 +54,8 @@ const FooterPage: React.FC = () => {
               </svg>
             </a>
           </li>
+
+          {/* Instagram */}
           <li>
             <a
               href="https://instagram.com"
@@ -67,6 +73,8 @@ const FooterPage: React.FC = () => {
               </svg>
             </a>
           </li>
+
+          
         </ul>
       </div>
     </footer>
