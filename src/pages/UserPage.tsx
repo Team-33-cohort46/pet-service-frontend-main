@@ -335,7 +335,7 @@ const UserPage: React.FC = () => {
                 <button
                   type="button"
                   onClick={handlePhotoUpload}
-                  className="profile-button"
+                  className="mt-2 profile-button"
                 >
                   Upload Photo
                 </button>
