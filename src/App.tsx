@@ -154,7 +154,8 @@ const App: React.FC = () => {
                       Profile
                     </Link>
 
-                <Link to="/review" className="fancy-button text-white rounded-md" >
+                <Link to="/review" className="block text-gray-700 hover:text-theme-blue px-3 py-2 rounded-md text-base font-medium mb-4"
+                      onClick={() => setIsMenuOpen(false)} >
                                         Leave review
                                     </Link>
                                     </>
