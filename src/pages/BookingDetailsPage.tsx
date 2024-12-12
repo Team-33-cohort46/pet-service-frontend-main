@@ -2,14 +2,21 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 
 interface Booking {
-  bookingId: number;
+  id: number;
   status: string;
-  serviceId: number;
-  petId: number;
+  serviceTitle: string;
+  petName: string;
   sitterId: number;
   ownerId: number;
   startDate: string;
   endDate: string;
+  sitter: Sitter
+}
+
+interface Sitter {
+  firstName: string,
+  lastName: string,
+  email: string
 }
 
 const BookingDetailsPage: React.FC = () => {
@@ -17,6 +24,8 @@ const BookingDetailsPage: React.FC = () => {
   const navigate = useNavigate();
   const [booking, setBooking] = useState<Booking | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
+
+
 
   // Оборачиваем функцию в useCallback, чтобы избежать лишних рендеров
   const fetchBookingDetails = useCallback(async (bookingId: number) => {
@@ -33,6 +42,7 @@ const BookingDetailsPage: React.FC = () => {
       }
 
       const data = await response.json();
+      console.log(data)
       setBooking(data);
     } catch (error) {
       console.error(error);
@@ -95,7 +105,7 @@ const BookingDetailsPage: React.FC = () => {
         <h2 className="text-2xl font-semibold text-gray-700 mb-4">Overview</h2>
         <div className="border rounded-lg p-4 bg-white shadow-sm space-y-2">
           <p className="text-gray-700">
-            <span className="font-medium">Booking ID:</span> {booking.bookingId}
+            <span className="font-medium">Booking ID:</span> {booking.id}
           </p>
           <p className="text-gray-700 flex items-center">
             <span className="font-medium">Status:</span>
@@ -116,10 +126,10 @@ const BookingDetailsPage: React.FC = () => {
         <h2 className="text-2xl font-semibold text-gray-700 mb-4">Details</h2>
         <div className="border rounded-lg p-4 bg-white shadow-sm space-y-2">
           <p className="text-gray-700">
-            <span className="font-medium">Service ID:</span> {booking.serviceId}
+            <span className="font-medium">Service Title:</span> {booking.serviceTitle}
           </p>
           <p className="text-gray-700">
-            <span className="font-medium">Pet ID:</span> {booking.petId}
+            <span className="font-medium">Pet Name:</span> {booking.petName}
           </p>
           <p className="text-gray-700">
             <span className="font-medium">Start Date:</span> {new Date(booking.startDate).toLocaleDateString()}
@@ -132,6 +142,17 @@ const BookingDetailsPage: React.FC = () => {
 
       <section className="mb-6">
         <h2 className="text-2xl font-semibold text-gray-700 mb-4">Additional Information</h2>
+        <div className="border rounded-lg p-4 bg-white shadow-sm space-y-2">
+          <p className="text-gray-700">
+            <span className="font-medium">This booking request has been sent to the sitter:</span> 
+          </p>
+          <p className="text-gray-700">
+            <span className="font-medium">Sitter Name:</span> {booking.sitter.firstName}
+          </p>
+          <p className="text-gray-700">
+            <span className="font-medium">Sitter Email:</span> {booking.sitter.email}
+          </p>
+        </div>
         <p className="text-gray-600 text-sm">
           Manage this booking and view more details in your{' '}
           <Link to="/user" className="text-blue-500 hover:underline">
@@ -143,7 +164,7 @@ const BookingDetailsPage: React.FC = () => {
       {booking.status !== 'cancelled' && (
         <button
           onClick={handleCancelBooking}
-          className="w-full bg-red-600 text-white font-medium py-3 rounded-lg shadow-md hover:bg-red-700 transition"
+          className="w-full red-button"
         >
           Cancel Booking
         </button>
