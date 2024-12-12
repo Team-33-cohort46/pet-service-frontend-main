@@ -134,9 +134,9 @@ const BookingDetailsPage: React.FC = () => {
         <h2 className="text-2xl font-semibold text-gray-700 mb-4">Additional Information</h2>
         <p className="text-gray-600 text-sm">
           Manage this booking and view more details in your{' '}
-          <a href="/user" className="text-blue-500 hover:underline">
-            personal account
-          </a>.
+          <Link to="/user" className="text-blue-500 hover:underline">
+          personal account
+                    </Link>.
         </p>
       </section>
 
