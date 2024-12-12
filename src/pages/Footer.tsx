@@ -22,12 +22,12 @@ const FooterPage: React.FC = () => {
           
           
           <li>
-            <a className="text-gray-700 hover:text-gray-900 text-sm" href="/contacts#/categories">
+            <a className="text-gray-700 hover:text-gray-900 text-sm" href="/categories">
               Categories
             </a>
           </li>
           <li>
-            <a className="text-gray-700 hover:text-gray-900 text-sm" href="/contacts#/contacts">
+            <a className="text-gray-700 hover:text-gray-900 text-sm" href="/contacts">
               Contact
             </a>
           </li>
