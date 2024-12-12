@@ -105,7 +105,7 @@ const MyPetBookings: React.FC = () => {
               key={booking.id}
               className={`border p-4 mb-4 ${booking.status === 'cancelled' ? 'opacity-50 bg-gray-200' : ''}`}
             >
-              <h3 className="text-xl font-bold">{booking.serviceTitle}</h3>
+              <h3 className="text-xl font-bold">Title: {booking.serviceTitle}</h3>
               <p>Pet Name: {booking.petName}</p>
               <p>Start Date: {booking.startDate}</p>
               <p>End Date: {booking.endDate}</p>
