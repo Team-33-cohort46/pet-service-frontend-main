@@ -24,10 +24,10 @@ const Services: React.FC = () => {
 
   const fetchServices = useCallback(async (page: number) => {
     setLoading(true);
-    const token = localStorage.getItem("authToken");
+    const token = localStorage.getItem('authToken');
 
     try {
-      const response = await fetch(`/api/admin/services?page=${page}&size=${pageSize}`, {
+      const response = await fetch(`/api/services?page=${page}&size=${pageSize}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

@@ -28,7 +28,6 @@ const AdminApp: React.FC = () => {
             <Route path="users" element={<Users />} />
             <Route path="users/edit/:userId" element={<EditUser />} />
             <Route path="pets" element={<Pets />} />
-            <Route path="bookings" element={<Bookings />} />
           </Routes>
         </div>
       </div>
