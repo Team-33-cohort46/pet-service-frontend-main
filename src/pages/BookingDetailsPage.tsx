@@ -42,7 +42,6 @@ const BookingDetailsPage: React.FC = () => {
       }
 
       const data = await response.json();
-      console.log(data)
       setBooking(data);
     } catch (error) {
       console.error(error);

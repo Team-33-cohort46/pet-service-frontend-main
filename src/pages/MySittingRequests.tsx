@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import BookingsList from './BookingsList';
 
 interface Booking {
   id: number;
@@ -50,7 +49,7 @@ const MySittingRequests: React.FC = () => {
     fetchBookings();
   }, [authToken]);
 
-  const changeStatus = async (bookingId: number, newStatus: string, isOwner: boolean, booking: Booking) => {
+  const changeStatus = async (bookingId: number, newStatus: string) => {
     try {
       const endpoint = `/api/bookings/${bookingId}`;
       const body = JSON.stringify({ status: newStatus });
@@ -80,6 +79,42 @@ const MySittingRequests: React.FC = () => {
     }
   };
 
+  const renderStatusControls = (booking: Booking) => {
+    // Показываем кнопки только для состояния "pending"
+    if (booking.status !== 'pending') {
+      return null;
+    }
+
+    const handleConfirm = () => {
+      if (booking.status !== 'confirmed' && booking.status !== 'rejected') {
+        changeStatus(booking.id, 'confirmed');
+      }
+    };
+
+    const handleReject = () => {
+      if (booking.status !== 'confirmed' && booking.status !== 'rejected') {
+        changeStatus(booking.id, 'rejected');
+      }
+    };
+
+    return (
+      <div className="flex space-x-4 mt-4">
+        <button
+          onClick={handleConfirm}
+          className="p-2 bg-green-500 text-white rounded hover:bg-green-600"
+        >
+          Confirm
+        </button>
+        <button
+          onClick={handleReject}
+          className="p-2 bg-yellow-500 text-white rounded hover:bg-yellow-600"
+        >
+          Reject
+        </button>
+      </div>
+    );
+  };
+
   return (
     <div className="max-w-6xl mx-auto p-8">
       <h1 className="text-4xl font-bold mb-6">My Sitting Requests</h1>
@@ -88,7 +123,36 @@ const MySittingRequests: React.FC = () => {
       ) : error ? (
         <p className="text-red-500">{error}</p>
       ) : (
-        <BookingsList bookings={sitterBookings} isOwner={false} changeStatus={changeStatus} />
+        <div className="space-y-6">
+          {sitterBookings.map((booking) => (
+            <div
+              key={booking.id}
+              className={`p-6 border rounded-lg shadow-md bg-white hover:shadow-lg transition-all ${
+                booking.status === 'cancelled' ? 'opacity-50 bg-gray-200' : ''
+              }`}
+            >
+              <div className="flex justify-between">
+                <div>
+                  <h3 className="text-2xl font-semibold text-gray-800">
+                    {booking.serviceTitle}
+                  </h3>
+                  <p className="text-sm text-gray-600">Pet: {booking.petName}</p>
+                  <p className="text-sm text-gray-600">
+                    Price: <span>€{booking.price}</span>
+                  </p>
+                  <p className="text-sm text-gray-600">
+                    {booking.startDate} - {booking.endDate}
+                  </p>
+                  <p className="text-sm text-gray-600 mt-2">
+                    <strong>Status:</strong> {booking.status}
+                  </p>
+                </div>
+              </div>
+              {/* Кнопки в нижней части карточки для статуса "pending" */}
+              {renderStatusControls(booking)}
+            </div>
+          ))}
+        </div>
       )}
 
       {notification && (

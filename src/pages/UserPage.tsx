@@ -6,12 +6,10 @@ import profilePhoto from '../asets/images/user.png';
 import star from '../asets/images/star.png';
 import emptyStar from '../asets/images/empty-star.png';
 import halfstar from '../asets/images/half-star.png';
-import TempUserBookings from './TempUserBookings';
 import UserReviewsPage from './UserReviewsPage';
 import PetPage from './PetPage';
 import MySittingRequests from './MySittingRequests';
 import MyPetBookings from './MyPetBookings';
-import AdminApp from './admin/AdminApp';
 import Dashboard from './admin/Dashboard';
 
 const UserPage: React.FC = () => {
